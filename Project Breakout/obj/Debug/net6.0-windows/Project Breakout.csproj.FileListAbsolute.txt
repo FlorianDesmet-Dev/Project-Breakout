@@ -1,0 +1,37 @@
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Project Breakout.exe
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Project Breakout.deps.json
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Project Breakout.runtimeconfig.json
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Project Breakout.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Project Breakout.pdb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Microsoft.CodeAnalysis.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Microsoft.CodeAnalysis.CSharp.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\MonoGame.Framework.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.Direct2D1.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.Direct3D11.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.Direct3D9.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.DXGI.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.Mathematics.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.MediaFoundation.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.XAudio2.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\SharpDX.XInput.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\debian-x64\native\libuv.so
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\fedora-x64\native\libuv.so
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\opensuse-x64\native\libuv.so
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\osx\native\libuv.dylib
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\rhel-x64\native\libuv.so
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\win7-arm\native\libuv.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\win7-x64\native\libuv.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\runtimes\win7-x86\native\libuv.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.csproj.AssemblyReference.cache
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.GeneratedMSBuildEditorConfig.editorconfig
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.AssemblyInfoInputs.cache
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.AssemblyInfo.cs
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.csproj.CoreCompileInputs.cache
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.csproj.CopyComplete
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\refint\Project Breakout.dll
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.pdb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\Project Breakout.genruntimeconfig.cache
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\ref\Project Breakout.dll

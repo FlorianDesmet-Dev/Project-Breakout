@@ -1,3 +1,3 @@
 ﻿
-using var game = new Project_Breakout.MainGame();
+using var game = new ProjectBreakout.MainGame();
 game.Run();

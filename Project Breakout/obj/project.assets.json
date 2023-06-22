@@ -7530,9 +7530,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\Project Breakout.csproj",
-      "projectName": "Project Breakout",
-      "projectPath": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\Project Breakout.csproj",
+      "projectUniqueName": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj",
+      "projectName": "ProjectBreakout",
+      "projectPath": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj",
       "packagesPath": "C:\\Users\\desme\\.nuget\\packages\\",
       "outputPath": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\obj\\",
       "projectStyle": "PackageReference",
