@@ -4,25 +4,42 @@ namespace ProjectBreakout
 {
     internal class Ball : Sprite
     {
-        float Position_x { get; set; }
-        float Position_y { get; set; }
+        public float vx { get; set; }
+        public float vy { get; set; }
 
         public Ball(string pNameImage) : base(pNameImage)
         {
-            Position_x = ScreenSize.width / 2 - (SpriteTexture.Width / 2);
-            Position_y = ScreenSize.height / 2 - (SpriteTexture.Height / 2);
-            Position = new Vector2(Position_x, Position_y);
+            vx = 2;
+            vy = -2;
+            Speed = new Vector2(vx, vy);
+
         }
 
         public override void Load()
         {
-            SetPosition(Position);
-
             base.Load();
         }
 
         public override void Update(GameTime gameTime)
         {
+            Move();
+
+            if (Position.X + Width >= ScreenSize.width)
+            {
+                Position = new Vector2(ScreenSize.width - Width, Position.Y);
+                Speed = new Vector2(-Speed.X, Speed.Y);
+            }
+            else if (Position.X <= 0)
+            {
+                Position = new Vector2(0, Position.Y);
+                Speed = new Vector2(-Speed.X, Speed.Y);
+            }
+            else if (Position.Y <= 0)
+            {
+                Position = new Vector2(Position.X, 0);
+                Speed = new Vector2(Speed.X, -Speed.Y);
+            }
+
             base.Update(gameTime);
         }
 

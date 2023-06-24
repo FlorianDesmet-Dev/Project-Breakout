@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Background_scene.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background_scene.png
+
 #begin Ball_green.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -49,7 +61,7 @@
 /processorParam:TextureFormat=Color
 /build:Ball_violet.png
 
-#begin brick_green_1.png
+#begin Brick_green_break.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_green_1.png
+/build:Brick_green_break.png
 
-#begin brick_green_2.png
+#begin Brick_green_crack.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,9 +83,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_green_2.png
+/build:Brick_green_crack.png
 
-#begin brick_green_3.png
+#begin Brick_green_intact.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,9 +95,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_green_3.png
+/build:Brick_green_intact.png
 
-#begin brick_orange_1.png
+#begin Brick_orange_break.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,9 +107,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_orange_1.png
+/build:Brick_orange_break.png
 
-#begin brick_orange_2.png
+#begin Brick_orange_crack.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,9 +119,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_orange_2.png
+/build:Brick_orange_crack.png
 
-#begin brick_orange_3.png
+#begin Brick_orange_intact.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -119,9 +131,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_orange_3.png
+/build:Brick_orange_intact.png
 
-#begin brick_violet_1.png
+#begin Brick_violet_break.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,9 +143,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_violet_1.png
+/build:Brick_violet_break.png
 
-#begin brick_violet_2.png
+#begin Brick_violet_crack.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +155,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_violet_2.png
+/build:Brick_violet_crack.png
 
-#begin brick_violet_3.png
+#begin Brick_violet_intact.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,7 +167,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:brick_violet_3.png
+/build:Brick_violet_intact.png
 
 #begin File.spritefont
 /importer:FontDescriptionImporter
@@ -188,7 +200,7 @@
 /processorParam:TextureFormat=Color
 /build:Heart_full.png
 
-#begin Paddle_green_extraLarge.png
+#begin Paddle_green_extra_large.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -198,7 +210,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Paddle_green_extraLarge.png
+/build:Paddle_green_extra_large.png
 
 #begin Paddle_green_large.png
 /importer:TextureImporter
@@ -224,7 +236,7 @@
 /processorParam:TextureFormat=Color
 /build:Paddle_green_small.png
 
-#begin Paddle_orange_extraLarge.png
+#begin Paddle_orange_extra_large.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -234,7 +246,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Paddle_orange_extraLarge.png
+/build:Paddle_orange_extra_large.png
 
 #begin Paddle_orange_large.png
 /importer:TextureImporter
@@ -260,7 +272,7 @@
 /processorParam:TextureFormat=Color
 /build:Paddle_orange_small.png
 
-#begin Paddle_violet_extraLarge.png
+#begin Paddle_violet_extra_large.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -270,7 +282,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Paddle_violet_extraLarge.png
+/build:Paddle_violet_extra_large.png
 
 #begin Paddle_violet_large.png
 /importer:TextureImporter

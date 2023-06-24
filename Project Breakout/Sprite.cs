@@ -5,13 +5,14 @@ namespace ProjectBreakout
 {
     internal class Sprite
     {
-        public IGetAsset Texture { get; private set; }
+        public IGetAsset Asset { get; private set; }
         public SpriteBatch Batch { get; private set; }
         public IScreenSize ScreenSize { get; private set; }
 
         public Texture2D SpriteTexture { get; set; }
         public Vector2 Position { get; set; }
         public Rectangle BoundingBox { get; set; }
+        public Vector2 Speed { get; set; }
 
         public int Width
         {
@@ -27,13 +28,21 @@ namespace ProjectBreakout
                 return SpriteTexture.Height; 
             }
         }
+
         public Sprite(string pNameImage)
         {
-            Texture = ServiceLocator.GetService<IGetAsset>();
+            Asset = ServiceLocator.GetService<IGetAsset>();
             Batch = ServiceLocator.GetService<SpriteBatch>();
             ScreenSize = ServiceLocator.GetService<IScreenSize>();
 
-            SpriteTexture = Texture.GetTexture(pNameImage);
+            SpriteTexture = Asset.GetTexture(pNameImage);
+        }
+
+        public Sprite()
+        {
+            Asset = ServiceLocator.GetService<IGetAsset>();
+            Batch = ServiceLocator.GetService<SpriteBatch>();
+            ScreenSize = ServiceLocator.GetService<IScreenSize>();
         }
 
         public virtual void Load()
@@ -41,9 +50,38 @@ namespace ProjectBreakout
 
         }
 
-        public void SetPosition(Vector2 pPosition)
+        public void SetPosition(float pX, float pY)
         {
-            Position = pPosition;
+            Position = new Vector2(pX, pY);
+        }
+
+        public Rectangle NextPositionX()
+        {
+            Rectangle nextPosition = BoundingBox;
+            nextPosition.Offset(new Point((int)Speed.X, 0));
+            return nextPosition;
+        }
+
+        public Rectangle NextPositionY()
+        {
+            Rectangle nextPosition = BoundingBox;
+            nextPosition.Offset(new Point(0, (int)Speed.Y));
+            return nextPosition;
+        }
+
+        public virtual void Move()
+        {
+            Position += Speed;
+        }
+
+        public virtual void ChangeDirectionX()
+        {
+            Speed = new Vector2(-Speed.X, Speed.Y);
+        }
+
+        public virtual void ChangeDirectionY()
+        {
+            Speed = new Vector2(Speed.X, -Speed.Y);
         }
 
         public virtual void Update(GameTime gameTime)

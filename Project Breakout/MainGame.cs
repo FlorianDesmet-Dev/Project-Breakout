@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ProjectBreakout
 {
-    public class MainGame : Game
+    internal class MainGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ScreenManager screenSize;
         private AssetsManager assetsManager;
 
-        public GameState GameState { get; set; }
+        private GameState GameState;
 
         public MainGame()
         {
@@ -20,7 +20,7 @@ namespace ProjectBreakout
             assetsManager = new AssetsManager(Content);
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
             GameState = new GameState();
         }
@@ -43,6 +43,7 @@ namespace ProjectBreakout
             ServiceLocator.RegisterService<SpriteBatch>(_spriteBatch);
             ServiceLocator.RegisterService<IScreenSize>(screenSize);
             ServiceLocator.RegisterService<IGetAsset>(assetsManager);
+            ServiceLocator.RegisterService<GameState>(GameState);
 
             GameState.ChangeScene(GameState.SceneType.Menu);
         }
@@ -57,11 +58,6 @@ namespace ProjectBreakout
             if (GameState.CurrentScene != null)
             {
                 GameState.CurrentScene.Update(gameTime);
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {
-                GameState.ChangeScene(GameState.SceneType.Gameplay);
             }
 
             base.Update(gameTime);

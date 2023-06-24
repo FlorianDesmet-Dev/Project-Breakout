@@ -6,13 +6,16 @@ namespace ProjectBreakout
     public class Scene
     {
         public SpriteBatch Batch { get; private set; }
-        public IGetAsset Font { get; set; }
-        public IGetAsset Texture { get; set; }
+        public IGetAsset Asset { get; set; }
+        public IScreenSize ScreenSize { get; private set; }
+        public GameState GameState { get; set; }
 
         public Scene()
         {
             Batch = ServiceLocator.GetService<SpriteBatch>();
-            Font = ServiceLocator.GetService<IGetAsset>();
+            Asset = ServiceLocator.GetService<IGetAsset>();
+            ScreenSize = ServiceLocator.GetService<IScreenSize>();
+            GameState = ServiceLocator.GetService<GameState>();
         }
 
         public virtual void Load()
