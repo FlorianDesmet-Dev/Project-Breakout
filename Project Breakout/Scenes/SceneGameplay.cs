@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Text.Json;
 
@@ -14,12 +15,15 @@ namespace ProjectBreakout
         public List<Brick> BrickList { get; set; }
 
         public bool BallStick { get; set; }
+        public int CurrentScore { get; set; }
 
         public SceneGameplay() : base()
         {
             Paddle = new Paddle("green", "large");
-            Ball = new Ball("Ball_green");
+            Ball = new Ball(Paddle.Type, "");
             BrickList = new List<Brick>();
+
+            CurrentScore = 0;
         }
 
         public override void Load()
@@ -65,6 +69,7 @@ namespace ProjectBreakout
 
         public override void Unload()
         {
+            ScoreManager.SaveScore();
             base.Unload();
         }
 
@@ -75,32 +80,41 @@ namespace ProjectBreakout
                 BallStick = false;
             }
 
-            Paddle.Controller();
+            if (!BallStick)
+            {
+                Paddle.Controller();
+            }
+
             Paddle.Update(gameTime);
 
             for (int i = BrickList.Count - 1; i >= 0; i--)
             {
-                bool collision;
+                bool brickCollision;
                 Brick brick = BrickList[i];
                 brick.Update(gameTime);
+
                 if (brick.BoundingBox.Intersects(Ball.NextPositionX()))
                 {
                     Ball.ChangeDirectionX();
-                    collision = true;
+                    brickCollision = true;
                 }
                 else if (brick.BoundingBox.Intersects(Ball.NextPositionY()))
                 {
                     Ball.ChangeDirectionY();
-                    collision = true;
+                    brickCollision = true;
                 }
                 else
                 {
-                    collision = false;
+                    brickCollision = false;
                 }
 
-                if (collision)
+                if (brickCollision)
                 {
-                    brick.Strength--;
+                    if (brick.Type == Ball.Type)
+                    {
+                        brick.Strength--;
+                        CurrentScore = ScoreManager.IncrementScore(10);
+                    }
 
                     switch (brick.Strength)
                     {
@@ -122,6 +136,7 @@ namespace ProjectBreakout
             }
 
             Ball.Update(gameTime);
+            bool ballCollision;
 
             if (BallStick)
             {
@@ -134,20 +149,45 @@ namespace ProjectBreakout
             if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()))
             {
                 Ball.ChangeDirectionX();
+                ballCollision = true;
+
             }
             else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()))
             {
                 Ball.ChangeDirectionY();
+                ballCollision = true;
+            }
+            else
+            {
+                ballCollision = false;
+            }
+
+            if (ballCollision)
+            {
+                switch (Paddle.Type)
+                {
+                    case "green":
+                        Ball.ChangeType(Ball.BallType.Green);
+                        break;
+                    case "orange":
+                        Ball.ChangeType(Ball.BallType.Orange);
+                        break;
+                    case "violet":
+                        Ball.ChangeType(Ball.BallType.Violet);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (Ball.Position.Y - (Ball.Height * 2) >= ScreenSize.height)
             {
-                // Liffe --
+                // Life --
                 BallStick = true;
                 GameState.ChangeScene(GameState.SceneType.Gameover);
             }
 
-            /* if (Life == 0)
+            /* if (Life <= 0)
             {
                 Game over !!!   
             }   */
@@ -164,6 +204,8 @@ namespace ProjectBreakout
             {
                 brick.Draw(gameTime);
             }
+
+            Batch.DrawString(Asset.GetFont("FontMenu"), "Score : " + CurrentScore, Vector2.Zero, Color.White);
 
             base.Draw(gameTime);
         }

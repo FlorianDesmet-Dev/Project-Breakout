@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace ProjectBreakout
 {
@@ -25,7 +26,7 @@ namespace ProjectBreakout
 
         public virtual void Unload()
         {
-
+            Debug.WriteLine("Unload");
         }
 
         public virtual void Update(GameTime gameTime)

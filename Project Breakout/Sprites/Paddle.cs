@@ -25,6 +25,8 @@ namespace ProjectBreakout
         public float Position_x { get; set; }
         public float Position_y { get; set; }
 
+        MouseState oldMouseState { get; set; }
+
         public Paddle(string pType, string pState) : base()
         {
             Type = pType;
@@ -94,6 +96,28 @@ namespace ProjectBreakout
                 Position = new Vector2(0, Position.Y);
             }
 
+            MouseState newMouseState = Mouse.GetState();
+
+            if (newMouseState.MiddleButton == ButtonState.Pressed &&
+                oldMouseState != newMouseState)
+            {
+                switch (Type)
+                {
+                    case "green":
+                        ChangeType(PaddleType.Orange);
+                        break;
+                    case "orange":
+                        ChangeType(PaddleType.Violet);
+                        break;
+                    case "violet":
+                        ChangeType(PaddleType.Green);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            oldMouseState = newMouseState;
         }
 
         public override void Update(GameTime gameTime)
