@@ -35,7 +35,6 @@ D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakou
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\ProjectBreakout.pdb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\ProjectBreakout.genruntimeconfig.cache
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\obj\Debug\net6.0-windows\ref\ProjectBreakout.dll
-D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\FontMenu.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Ball_green.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Ball_orange.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Ball_violet.xnb
@@ -60,3 +59,11 @@ D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakou
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Brick_violet_break.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Brick_violet_crack.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Brick_violet_intact.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\SubTitle.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\TitleFont.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Bonus_big_bar.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Bonus_multiball.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Bonus_slow_ball.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Malus_fast_ball.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Malus_inverted_commands.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Malus_small_bar.xnb

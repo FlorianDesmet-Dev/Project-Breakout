@@ -28,7 +28,7 @@ namespace ProjectBreakout
             State = pState;
             SpriteTexture = Asset.GetTexture("Brick_" + Type + "_" + State);
 
-            Strength = 3;
+            Strength = 1;
         }
 
         public void ChangeState(BrickState pState)
@@ -82,7 +82,7 @@ namespace ProjectBreakout
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            Batch.DrawString(Asset.GetFont("FontMenu"), "" + Strength, Position, Color.White);
+            // Batch.DrawString(Asset.GetFont("FontMenu"), "" + Strength, Position, Color.White);
         }
     }
 }

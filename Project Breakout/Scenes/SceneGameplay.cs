@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace ProjectBreakout
@@ -11,17 +12,24 @@ namespace ProjectBreakout
     {
         public Paddle Paddle { get; set; }
         public Ball Ball { get; set; }
-        Brick newBrick { get; set; }
+
+        Brick NewBrick { get; set; }
         public List<Brick> BrickList { get; set; }
+
+        Bonus NewBonus { get; set; }
+        public List<Bonus> BonusList { get; set; }
 
         public bool BallStick { get; set; }
         public int CurrentScore { get; set; }
+
+        public string oldTextureBonus { get; set; }
 
         public SceneGameplay() : base()
         {
             Paddle = new Paddle("green", "large");
             Ball = new Ball(Paddle.Type, "");
             BrickList = new List<Brick>();
+            BonusList = new List<Bonus>();
 
             CurrentScore = 0;
         }
@@ -57,9 +65,9 @@ namespace ProjectBreakout
                     {
                         string type;
                         type = allType[brickType - 1];
-                        newBrick = new Brick(type, "intact");
-                        newBrick.SetPosition((c * newBrick.Width), (l * newBrick.Height));
-                        BrickList.Add(newBrick);
+                        NewBrick = new Brick(type, "intact");
+                        NewBrick.SetPosition((c * NewBrick.Width), (l * NewBrick.Height));
+                        BrickList.Add(NewBrick);
                     }
                 }
             }
@@ -87,6 +95,7 @@ namespace ProjectBreakout
 
             Paddle.Update(gameTime);
 
+            // Bricks
             for (int i = BrickList.Count - 1; i >= 0; i--)
             {
                 bool brickCollision;
@@ -126,15 +135,46 @@ namespace ProjectBreakout
                             break;
                         default:
                             break;
-                    }
+                    }                   
 
                     if (brick.Strength <= 0)
                     {
                         BrickList.Remove(brick);
-                    }
+                        
+                        // Create Bonus
+                        string[] listTextureBonus = new string[2];
+                        listTextureBonus[0] = "Bonus_big_bar";
+                        listTextureBonus[1] = "Bonus_multiball";
+
+                        Random random = new Random();
+
+                        string newTextureBonus = listTextureBonus[random.Next(0, listTextureBonus.Length)];
+
+                        if (BonusList.Count == 0 &&
+                            oldTextureBonus != newTextureBonus)
+                        {                            
+                            NewBonus = new Bonus(newTextureBonus);
+                            NewBonus.SetPosition(brick.Position.X, brick.Position.Y);
+                            BonusList.Add(NewBonus);
+                        }
+                        oldTextureBonus = newTextureBonus;
+                    }                    
                 }
             }
 
+            // Update and Remove Bonus
+            for (int i = BonusList.Count; i > 0; i--)
+            {               
+                BonusList[i - 1].Update(gameTime);
+                
+                if (BonusList[i - 1].Position.Y >= (ScreenSize.height + BonusList[i - 1].Height) ||
+                    BonusList[i - 1].BoundingBox.Intersects(Paddle.BoundingBox))
+                {
+                    BonusList.Remove(BonusList[i - 1]);
+                }
+            }            
+
+            // Ball
             Ball.Update(gameTime);
             bool ballCollision;
 
@@ -184,7 +224,7 @@ namespace ProjectBreakout
             {
                 // Life --
                 BallStick = true;
-                GameState.ChangeScene(GameState.SceneType.Gameover);
+                // GameState.ChangeScene(GameState.SceneType.Gameover);
             }
 
             /* if (Life <= 0)
@@ -205,7 +245,18 @@ namespace ProjectBreakout
                 brick.Draw(gameTime);
             }
 
-            Batch.DrawString(Asset.GetFont("FontMenu"), "Score : " + CurrentScore, Vector2.Zero, Color.White);
+            foreach (Bonus bonus in BonusList)
+            {
+                bonus.Draw(gameTime);
+            }
+
+            Batch.DrawString(Asset.GetFont("SubTitle"), "Score : " + CurrentScore, new Vector2(10, 10), Color.White);
+            
+            Batch.DrawString(
+                    Asset.GetFont("SubTitle"),
+                    "Bonus list count = " + BonusList.Count,
+                    new Vector2(200, 10),
+                    Color.White);
 
             base.Draw(gameTime);
         }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ProjectBreakout
 {
-    internal class Sprite
+    internal abstract class Sprite
     {
         public IGetAsset Asset { get; private set; }
         public SpriteBatch Batch { get; private set; }

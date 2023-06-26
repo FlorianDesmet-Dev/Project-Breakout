@@ -6,14 +6,15 @@ namespace ProjectBreakout
 {
     internal class SceneMenu : Scene
     {
-        public SpriteFont FontMenu { get; private set; }
-        public Vector2 FontPosition { get; private set; }
+        public SpriteFont TitleFont { get; private set; }
+        public Vector2 TitlePosition { get; private set; }
 
         public SceneMenu() : base()
         {
-            FontMenu = Asset.GetFont("FontMenu");
-            FontPosition = new Vector2(
-                ScreenSize.width / 2 - FontMenu.MeasureString("Press enter").Length() / 2, 
+            TitleFont = Asset.GetFont("TitleFont");
+
+            TitlePosition = new Vector2(
+                ScreenSize.width / 2 - TitleFont.MeasureString("Press enter").Length() / 2, 
                 ScreenSize.height / 2);
         }
 
@@ -39,7 +40,7 @@ namespace ProjectBreakout
 
         public override void Draw(GameTime gameTime)
         {
-            Batch.DrawString(FontMenu,"Press enter", FontPosition, Color.White);
+            Batch.DrawString(TitleFont,"Press enter", TitlePosition, Color.White);
             base.Draw(gameTime);
         }
     }
