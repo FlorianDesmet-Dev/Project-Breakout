@@ -1,85 +1,68 @@
 ﻿using Microsoft.Xna.Framework;
-using static ProjectBreakout.Paddle;
 using System;
 
-namespace ProjectBreakout
+namespace ProjectBreakout;
+
+internal class Ball : Sprite
 {
-    internal class Ball : Sprite
+    public enum BallType
     {
-        public enum BallType
+        Blue,
+        Red,
+        Yellow,
+        Big
+    }
+
+    public Ball(string pNameImage, string pType) : base(pNameImage, pType)
+    {
+        
+    }
+
+    public override void Load()
+    {
+        base.Load();
+    }
+
+    public void ChangeType(BallType pType)
+    {
+        switch (pType)
         {
-            Green,
-            Orange,
-            Violet
+            case BallType.Blue:
+                Type = "Blue";
+                break;
+            case BallType.Red:
+                Type = "Red";
+                break;
+            case BallType.Yellow:
+                Type = "Yellow";
+                break;
+            case BallType.Big:
+                Type = "Big";
+                break;
+            default:
+                break;
         }
+        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type);
+    }
 
-        public float vx { get; set; }
-        public float vy { get; set; }
+    public void StickyBall(Paddle pPaddle)
+    {
+        SetPosition(
+            pPaddle.Position.X + (pPaddle.Width / 2) - (Width / 2),
+            pPaddle.Position.Y - Height);
 
-        public string Type { get; set; }
-        public string State { get; set; }
+        Speed = new Vector2(2, -2);
+    }
 
-        public Ball(string pType, string pState) : base()
-        {
-            Type = pType;
-            State = pState;
-            SpriteTexture = Asset.GetTexture("Ball_" + Type + State);
+    public override void Update(GameTime gameTime)
+    {
+        BounceLimit();
 
-            vx = 2;
-            vy = -2;
-            Speed = new Vector2(vx, vy);
-        }
+        base.Update(gameTime);
+    }
 
-        public override void Load()
-        {
-            base.Load();
-        }
-
-        public void ChangeType(BallType pType)
-        {
-            switch (pType)
-            {
-                case BallType.Green:
-                    Type = "green";
-                    break;
-                case BallType.Orange:
-                    Type = "orange";
-                    break;
-                case BallType.Violet:
-                    Type = "violet";
-                    break;
-                default:
-                    break;
-            }
-            SpriteTexture = Asset.GetTexture("Ball_" + Type);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            Move();
-
-            if (Position.X + Width >= ScreenSize.width)
-            {
-                Position = new Vector2(ScreenSize.width - Width, Position.Y);
-                Speed = new Vector2(-Speed.X, Speed.Y);
-            }
-            else if (Position.X <= 0)
-            {
-                Position = new Vector2(0, Position.Y);
-                Speed = new Vector2(-Speed.X, Speed.Y);
-            }
-            else if (Position.Y <= 0)
-            {
-                Position = new Vector2(Position.X, 0);
-                Speed = new Vector2(Speed.X, -Speed.Y);
-            }
-
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-        }
+    public override void Draw(GameTime gameTime)
+    {
+        base.Draw(gameTime);
     }
 }

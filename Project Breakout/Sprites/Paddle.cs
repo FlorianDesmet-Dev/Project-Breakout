@@ -7,31 +7,27 @@ namespace ProjectBreakout
     {
         public enum PaddleType
         {
-            Green,
-            Orange,
-            Violet
+            Blue,
+            Red,
+            Yellow
         }
 
         public enum PaddleState
         {
             Small,
             Large,
-            Extra_large
+            XLarge,
+            XXLarge
         }
-
-        public string Type { get; private set; }
-        public string State { get; private set; }
 
         public float Position_x { get; set; }
         public float Position_y { get; set; }
 
-        MouseState oldMouseState { get; set; }
+        MouseState oldMouseState;
 
-        public Paddle(string pType, string pState) : base()
+        public Paddle(string pNameImage, string pType, string pState) : base(pNameImage, pType, pState)
         {
-            Type = pType;
-            State = pState;
-            SpriteTexture = Asset.GetTexture("Paddle_" + Type + "_" + State);
+            Life = 3;
 
             Position_x = ScreenSize.width / 2 - (SpriteTexture.Width / 2);
             Position_y = ScreenSize.height - (SpriteTexture.Height * 2);
@@ -49,37 +45,40 @@ namespace ProjectBreakout
             switch (pState)
             {
                 case PaddleState.Small:
-                    State = "small";
+                    State = "Small";
                     break;
                 case PaddleState.Large:
-                    Type = "large";
+                    State = "Large";
                     break;
-                case PaddleState.Extra_large:
-                    Type = "extra_large";
+                case PaddleState.XLarge:
+                    State = "XLarge";
+                    break;
+                case PaddleState.XXLarge:
+                    State = "XXLarge";
                     break;
                 default:
                     break;
             }
-            SpriteTexture = Asset.GetTexture("Paddle_" + Type + "_" + State);
+            SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
         }
 
         public void ChangeType(PaddleType pType)
         {
             switch(pType)
             {
-                case PaddleType.Green:
-                    Type = "green";
+                case PaddleType.Blue:
+                    Type = "Blue";
                     break;
-                case PaddleType.Orange:
-                    Type = "orange";
+                case PaddleType.Red:
+                    Type = "Red";
                     break;
-                case PaddleType.Violet:
-                    Type = "violet";
+                case PaddleType.Yellow:
+                    Type = "Yellow";
                     break;
                 default:
                     break;
             }
-            SpriteTexture = Asset.GetTexture("Paddle_" + Type + "_" + State);
+            SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
         }
 
         public void Controller()
@@ -98,19 +97,19 @@ namespace ProjectBreakout
 
             MouseState newMouseState = Mouse.GetState();
 
-            if (newMouseState.MiddleButton == ButtonState.Pressed &&
+            if (newMouseState.RightButton == ButtonState.Pressed &&
                 oldMouseState != newMouseState)
             {
                 switch (Type)
                 {
-                    case "green":
-                        ChangeType(PaddleType.Orange);
+                    case "Blue":
+                        ChangeType(PaddleType.Red);
                         break;
-                    case "orange":
-                        ChangeType(PaddleType.Violet);
+                    case "Red":
+                        ChangeType(PaddleType.Yellow);
                         break;
-                    case "violet":
-                        ChangeType(PaddleType.Green);
+                    case "Yellow":
+                        ChangeType(PaddleType.Blue);
                         break;
                     default:
                         break;
@@ -128,6 +127,12 @@ namespace ProjectBreakout
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+
+            Batch.DrawString(
+                Asset.GetFont("SubTitle"), 
+                "Life : " + Life, 
+                new Vector2(10, ScreenSize.height - 24), 
+                Color.White);
         }
     }
 }

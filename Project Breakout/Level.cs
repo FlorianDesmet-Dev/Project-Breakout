@@ -7,5 +7,7 @@
 
     public Level()
     {
+        Lines = 20;
+        Columns = 18;
     }
 }

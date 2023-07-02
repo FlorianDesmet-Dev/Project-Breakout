@@ -1,48 +1,63 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Color = Microsoft.Xna.Framework.Color;
+using Point = Microsoft.Xna.Framework.Point;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace ProjectBreakout
 {
     internal abstract class Sprite
     {
-        public IGetAsset Asset { get; private set; }
-        public SpriteBatch Batch { get; private set; }
-        public IScreenSize ScreenSize { get; private set; }
+        protected IGetAsset Asset { get; private set; }
+        protected SpriteBatch Batch { get; private set; }
+        protected IScreenSize ScreenSize { get; private set; }
 
         public Texture2D SpriteTexture { get; set; }
         public Vector2 Position { get; set; }
-        public Rectangle BoundingBox { get; set; }
         public Vector2 Speed { get; set; }
+        public Rectangle BoundingBox { get; set; }
 
-        public int Width
-        {
-            get
-            {
-                return SpriteTexture.Width;
-            }
-        }
-        public int Height
-        {
-            get
-            { 
-                return SpriteTexture.Height; 
-            }
-        }
+        public string NameImage { get; set; }
+        public int Life { get; set; }
+
+        public int Width { get { return SpriteTexture.Width; } }
+        public int Height { get { return SpriteTexture.Height; } }
+
+        public string Type { get; protected set; }
+        public string State { get; protected set; }
 
         public Sprite(string pNameImage)
         {
             Asset = ServiceLocator.GetService<IGetAsset>();
             Batch = ServiceLocator.GetService<SpriteBatch>();
             ScreenSize = ServiceLocator.GetService<IScreenSize>();
-
-            SpriteTexture = Asset.GetTexture(pNameImage);
+            
+            NameImage = pNameImage;
+            SpriteTexture = Asset.GetTexture(NameImage);
         }
 
-        public Sprite()
+        public Sprite(string pNameImage, string pType)
         {
             Asset = ServiceLocator.GetService<IGetAsset>();
             Batch = ServiceLocator.GetService<SpriteBatch>();
             ScreenSize = ServiceLocator.GetService<IScreenSize>();
+
+            NameImage = pNameImage;
+            Type = pType;
+            SpriteTexture = Asset.GetTexture(pNameImage + "_" + Type);
+        }
+
+        public Sprite(string pNameImage, string pType, string pState)
+        {
+            Asset = ServiceLocator.GetService<IGetAsset>();
+            Batch = ServiceLocator.GetService<SpriteBatch>();
+            ScreenSize = ServiceLocator.GetService<IScreenSize>();
+
+            NameImage = pNameImage;
+            Type = pType;
+            State = pState;
+            SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
         }
 
         public virtual void Load()
@@ -69,11 +84,6 @@ namespace ProjectBreakout
             return nextPosition;
         }
 
-        public virtual void Move()
-        {
-            Position += Speed;
-        }
-
         public virtual void ChangeDirectionX()
         {
             Speed = new Vector2(-Speed.X, Speed.Y);
@@ -82,6 +92,30 @@ namespace ProjectBreakout
         public virtual void ChangeDirectionY()
         {
             Speed = new Vector2(Speed.X, -Speed.Y);
+        }
+
+        public virtual void Move()
+        {
+            Position += Speed;
+        }
+        
+        public virtual void BounceLimit()
+        {
+            if (Position.X + Width >= ScreenSize.width)
+            {
+                Position = new Vector2(ScreenSize.width - Width, Position.Y);
+                ChangeDirectionX();
+            }
+            else if (Position.X <= 0)
+            {
+                Position = new Vector2(0, Position.Y);
+                ChangeDirectionX();
+            }
+            else if (Position.Y <= 0)
+            {
+                Position = new Vector2(Position.X, 0);
+                ChangeDirectionY();
+            }
         }
 
         public virtual void Update(GameTime gameTime)

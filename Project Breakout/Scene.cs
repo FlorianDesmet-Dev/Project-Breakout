@@ -7,7 +7,7 @@ namespace ProjectBreakout
     public class Scene
     {
         public SpriteBatch Batch { get; private set; }
-        public IGetAsset Asset { get; set; }
+        public IGetAsset Asset { get; private set; }
         public IScreenSize ScreenSize { get; private set; }
         public GameState GameState { get; set; }
 

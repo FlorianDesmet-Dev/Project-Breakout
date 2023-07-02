@@ -2,263 +2,365 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 
-namespace ProjectBreakout
+namespace ProjectBreakout;
+
+internal class SceneGameplay : Scene
 {
-    internal class SceneGameplay : Scene
+    public Paddle Paddle { get; private set; }
+    public Ball Ball { get; private set; }
+
+    public ListBricks ListBricks { get; private set; }
+    // public ListBalls ListBalls { get; private set; }
+
+    public List<Ball> ListBall { get; private set; } 
+    public List<Bonus> ListBonus { get; private set; }
+    public List<Bonus> ListActiveBonus { get; private set; }
+
+    public bool StickyBall { get; private set; }
+    public bool CollisionBrick { get; private set; }
+    public bool CollisionPaddle { get; private set; }
+    
+    public int CurrentScore { get; private set; }
+
+    KeyboardState newKeyboardState;
+    KeyboardState oldKeyboardState;
+
+    public string[] BonusType { get; private set; }
+    float timerBonus;
+    bool activeBonus;
+
+    public SceneGameplay() : base()
     {
-        public Paddle Paddle { get; set; }
-        public Ball Ball { get; set; }
+        Paddle = new("Paddle", "Blue", "Large");
+        Ball = new("Ball", Paddle.Type);
 
-        Brick NewBrick { get; set; }
-        public List<Brick> BrickList { get; set; }
+        ListBricks = new();
+        ListBonus = new();
+        ListActiveBonus = new();
+        ListBall = new();
 
-        Bonus NewBonus { get; set; }
-        public List<Bonus> BonusList { get; set; }
+        StickyBall = true;
+        CollisionBrick = false;
+        CollisionPaddle = true;
 
-        public bool BallStick { get; set; }
-        public int CurrentScore { get; set; }
+        CurrentScore = 0;
+        oldKeyboardState = Keyboard.GetState();
 
-        public string oldTextureBonus { get; set; }
+        timerBonus = 15;
+    }
 
-        public SceneGameplay() : base()
+    public override void Load()
+    {
+        // Load Level
+        string fileName = "../../../Levels/level_1.json";
+        string levelJsonString = File.ReadAllText(fileName);
+        Level currentLevel = JsonSerializer.Deserialize<Level>(levelJsonString);
+
+        // Load Sprites
+        Paddle.Load();
+
+        Ball.SetPosition(
+            Paddle.Position.X + (Paddle.Width / 2) - (Ball.Width / 2),
+            Paddle.Position.Y - Ball.Height);
+        Ball.Load();
+
+        ListBricks.Load(currentLevel.Lines, currentLevel.Columns, currentLevel.Map);
+
+        BonusType = new string[7];
+        BonusType[0] = "big_ball";
+        BonusType[1] = "big_bar";
+        BonusType[2] = "fast_ball";
+        BonusType[3] = "inverted_commands";
+        BonusType[4] = "multiball";
+        BonusType[5] = "slow_ball";
+        BonusType[6] = "small_bar";
+        
+        StickyBall = true;
+
+        base.Load();
+    }
+
+    public override void Unload()
+    {
+        ScoreManager.SaveScore();
+        base.Unload();
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
         {
-            Paddle = new Paddle("green", "large");
-            Ball = new Ball(Paddle.Type, "");
-            BrickList = new List<Brick>();
-            BonusList = new List<Bonus>();
+            StickyBall = false;
+            CollisionPaddle = false;
+        }
+        
+        // PADDLE
+        Paddle.Controller();
+        Paddle.Update(gameTime);
 
-            CurrentScore = 0;
+        newKeyboardState = Keyboard.GetState();
+
+        if (newKeyboardState.IsKeyDown(Keys.Space) &&
+            oldKeyboardState != newKeyboardState)
+        {
+
         }
 
-        public override void Load()
+        oldKeyboardState = newKeyboardState;
+
+        // BALL
+        Ball.Move();
+        Ball.Update(gameTime);
+
+        if (StickyBall)
         {
-            // Loading Level
-            string fileName = "../../../Levels/level_1.json";
-            string levelJsonString = File.ReadAllText(fileName);
-            Level currentLevel = JsonSerializer.Deserialize<Level>(levelJsonString);
+            Ball.StickyBall(Paddle);
+        }
 
-            // Loading Sprite
-            Paddle.Load();
+        if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()))
+        {
+            Ball.ChangeDirectionX();
+            CollisionPaddle = true;
+            Debug.WriteLine("Paddle Collision");
+            Debug.WriteLine("The ball is " + Ball.Type.ToString());
+        }
+        else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()))
+        {
+            Ball.ChangeDirectionY();
+            CollisionPaddle = true;
+            Debug.WriteLine("Paddle Collision");
+            Debug.WriteLine("The ball is " + Ball.Type.ToString());
+        }
+        else
+        {
+            CollisionPaddle = false;
+        }
 
-            Ball.SetPosition(
-                (ScreenSize.width / 2) - (Paddle.Width / 2),
-                (ScreenSize.height) - (Paddle.Height * 2));
-            Ball.Load();
-
-            BallStick = true;
-
-            string[] allType = new string[3];
-            allType[0] = "green";
-            allType[1] = "orange";
-            allType[2] = "violet";
-
-            for (int l = 0; l < 10; l++)
+        if (StickyBall || CollisionPaddle && Ball.Type != "Big")
+        {
+            if (Paddle.Type == "Blue")
             {
-                for (int c = 0; c < 18; c++)
+                Ball.ChangeType(Ball.BallType.Blue);
+            }
+            else if (Paddle.Type == "Red")
+            {
+                Ball.ChangeType(Ball.BallType.Red);
+            }
+            else if (Paddle.Type == "Yellow")
+            {
+                Ball.ChangeType(Ball.BallType.Yellow);
+            }
+        }
+
+        // BRICKS
+        for (int i = ListBricks.Bricks.Count - 1; i >= 0; i--)
+        {
+            Brick brick = ListBricks.Bricks[i];
+            brick.Update(gameTime);
+
+            /* foreach (Ball ball in ListBalls.Balls)
+            {
+                if (brick.BoundingBox.Intersects(ball.NextPositionX()))
                 {
-                    int brickType = currentLevel.Map[l][c];
-                    if (brickType != 0)
-                    {
-                        string type;
-                        type = allType[brickType - 1];
-                        NewBrick = new Brick(type, "intact");
-                        NewBrick.SetPosition((c * NewBrick.Width), (l * NewBrick.Height));
-                        BrickList.Add(NewBrick);
-                    }
+                    ball.ChangeDirectionX();
+                    CollisionBrick = true;
+                    Debug.WriteLine("Brick Collision");
                 }
-            }
-
-            base.Load();
-        }
-
-        public override void Unload()
-        {
-            ScoreManager.SaveScore();
-            base.Unload();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-            {
-                BallStick = false;
-            }
-
-            if (!BallStick)
-            {
-                Paddle.Controller();
-            }
-
-            Paddle.Update(gameTime);
-
-            // Bricks
-            for (int i = BrickList.Count - 1; i >= 0; i--)
-            {
-                bool brickCollision;
-                Brick brick = BrickList[i];
-                brick.Update(gameTime);
-
-                if (brick.BoundingBox.Intersects(Ball.NextPositionX()))
+                else if (brick.BoundingBox.Intersects(ball.NextPositionY()))
                 {
-                    Ball.ChangeDirectionX();
-                    brickCollision = true;
-                }
-                else if (brick.BoundingBox.Intersects(Ball.NextPositionY()))
-                {
-                    Ball.ChangeDirectionY();
-                    brickCollision = true;
+                    ball.ChangeDirectionY();
+                    CollisionBrick = true;
+                    Debug.WriteLine("Brick Collision");
                 }
                 else
                 {
-                    brickCollision = false;
+                    CollisionBrick = false;
                 }
 
-                if (brickCollision)
+                if (CollisionBrick && brick.Type == ball.Type)
                 {
-                    if (brick.Type == Ball.Type)
-                    {
-                        brick.Strength--;
-                        CurrentScore = ScoreManager.IncrementScore(10);
-                    }
-
-                    switch (brick.Strength)
-                    {
-                        case 1:
-                            brick.ChangeState(Brick.BrickState.Break);
-                            break;
-                        case 2:
-                            brick.ChangeState(Brick.BrickState.Crack);
-                            break;
-                        default:
-                            break;
-                    }                   
-
-                    if (brick.Strength <= 0)
-                    {
-                        BrickList.Remove(brick);
-                        
-                        // Create Bonus
-                        string[] listTextureBonus = new string[2];
-                        listTextureBonus[0] = "Bonus_big_bar";
-                        listTextureBonus[1] = "Bonus_multiball";
-
-                        Random random = new Random();
-
-                        string newTextureBonus = listTextureBonus[random.Next(0, listTextureBonus.Length)];
-
-                        if (BonusList.Count == 0 &&
-                            oldTextureBonus != newTextureBonus)
-                        {                            
-                            NewBonus = new Bonus(newTextureBonus);
-                            NewBonus.SetPosition(brick.Position.X, brick.Position.Y);
-                            BonusList.Add(NewBonus);
-                        }
-                        oldTextureBonus = newTextureBonus;
-                    }                    
+                    brick.Life--;
+                    CurrentScore = ScoreManager.IncrementScore(10);
                 }
-            }
-
-            // Update and Remove Bonus
-            for (int i = BonusList.Count; i > 0; i--)
-            {               
-                BonusList[i - 1].Update(gameTime);
-                
-                if (BonusList[i - 1].Position.Y >= (ScreenSize.height + BonusList[i - 1].Height) ||
-                    BonusList[i - 1].BoundingBox.Intersects(Paddle.BoundingBox))
-                {
-                    BonusList.Remove(BonusList[i - 1]);
-                }
-            }            
-
-            // Ball
-            Ball.Update(gameTime);
-            bool ballCollision;
-
-            if (BallStick)
-            {
-                Ball.SetPosition(
-                    Paddle.Position.X + (Paddle.Width / 2) - (Ball.Width / 2),
-                    Paddle.Position.Y - Paddle.Height);
-                Ball.Speed = new Vector2(2, -2);
-            }
-
-            if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()))
+            } */
+      
+            if (brick.BoundingBox.Intersects(Ball.NextPositionX()))
             {
                 Ball.ChangeDirectionX();
-                ballCollision = true;
-
+                CollisionBrick = true;
+                Debug.WriteLine("Brick Collision");
             }
-            else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()))
+            else if (brick.BoundingBox.Intersects(Ball.NextPositionY()))
             {
                 Ball.ChangeDirectionY();
-                ballCollision = true;
+                CollisionBrick = true;
+                Debug.WriteLine("Brick Collision");
             }
             else
             {
-                ballCollision = false;
+                CollisionBrick = false;
             }
 
-            if (ballCollision)
+            if (CollisionBrick && (brick.Type == Ball.Type || Ball.Type == "Big"))
             {
-                switch (Paddle.Type)
+                brick.Life--;
+                CurrentScore = ScoreManager.IncrementScore(10);                    
+            }
+
+            if (brick.Life <= 0)
+            {
+                ListBricks.Bricks.Remove(brick);
+                Debug.WriteLine("Remove brick");
+
+                // CREATE BONUS
+                Random random = new();
+                int proba = 1;
+                Debug.WriteLine("Proba = " + proba);
+
+                if (proba == 1 && !activeBonus)
                 {
-                    case "green":
-                        Ball.ChangeType(Ball.BallType.Green);
-                        break;
-                    case "orange":
-                        Ball.ChangeType(Ball.BallType.Orange);
-                        break;
-                    case "violet":
-                        Ball.ChangeType(Ball.BallType.Violet);
-                        break;
-                    default:
-                        break;
+                    Bonus randomBonus = new(BonusType[1]);
+
+                    randomBonus.SetPosition(
+                        brick.Position.X + (brick.Width / 2) - (randomBonus.Width / 2),
+                        brick.Position.Y);
+
+                    ListBonus.Add(randomBonus);
                 }
             }
+        }        
 
-            if (Ball.Position.Y - (Ball.Height * 2) >= ScreenSize.height)
-            {
-                // Life --
-                BallStick = true;
-                // GameState.ChangeScene(GameState.SceneType.Gameover);
-            }
+        /* oldBallType = Ball.Type;
 
-            /* if (Life <= 0)
-            {
-                Game over !!!   
-            }   */
-
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
+        // MULTIBALL
+        for (int j = 0; j <= 9; j++)
         {
-            Paddle.Draw(gameTime);
-            Ball.Draw(gameTime);
+            Ball newBall = new("Ball", Ball.Type);
+            newBall.SetPosition(Ball.Position.X, Ball.Position.Y);
 
-            foreach (Brick brick in BrickList)
+            Random random = new();
+            int speed_x;
+            int speed_y;
+            do
             {
-                brick.Draw(gameTime);
-            }
+                speed_x = random.Next(-4, 4);
+            } while (speed_x == 0);
 
-            foreach (Bonus bonus in BonusList)
+            do
             {
-                bonus.Draw(gameTime);
+                speed_y = random.Next(-4, 4);
+            } while (speed_y == 0);
+
+            // newBall.Velocity = new Vector2(speed_x, speed_y);
+            // ListBall.Add(newBall);
+        } */
+
+        if (Ball.Position.Y - (Ball.Height * 2) >= ScreenSize.height && ListBall.Count == 0)
+        {
+            Paddle.Life--;
+            StickyBall = true;
+
+            if (Paddle.Life == 0)
+            {
+                GameState.ChangeScene(GameState.SceneType.Gameover);
             }
-
-            Batch.DrawString(Asset.GetFont("SubTitle"), "Score : " + CurrentScore, new Vector2(10, 10), Color.White);
-            
-            Batch.DrawString(
-                    Asset.GetFont("SubTitle"),
-                    "Bonus list count = " + BonusList.Count,
-                    new Vector2(200, 10),
-                    Color.White);
-
-            base.Draw(gameTime);
         }
+
+        // BONUS
+        for (int j = ListBonus.Count - 1; j >= 0; j--)
+        {
+            Bonus bonus = ListBonus[j];
+            bonus.Move();
+            bonus.Update(gameTime);
+
+            if (bonus.BoundingBox.Intersects(Paddle.BoundingBox))
+            {
+                activeBonus = true;
+                ListActiveBonus.Add(bonus);
+                ListBonus.Remove(bonus);
+            }
+        }
+
+        if (activeBonus)
+        {
+            for (int i = ListActiveBonus.Count - 1; i >= 0; i--)
+            {
+                Bonus bonus = ListActiveBonus[i];
+
+                if (bonus.NameImage == "big_ball")
+                {
+                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Ball.ChangeType(Ball.BallType.Big);
+
+                    if (timerBonus <= 0)
+                    {
+                        Ball.ChangeType(Ball.BallType.Blue);
+                        timerBonus = 15;
+                        activeBonus = false;
+                        ListActiveBonus.Remove(bonus);
+                    }
+                }
+                else if (bonus.NameImage == "big_bar")
+                {
+                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Paddle.ChangeState(Paddle.PaddleState.XXLarge);
+                    
+                    if (timerBonus <= 0)
+                    {
+                        Paddle.ChangeState(Paddle.PaddleState.Large);
+                        timerBonus = 15;
+                        activeBonus = false;
+                        ListActiveBonus.Remove(bonus);
+                    }
+                }
+                else if (bonus.NameImage == "fast_ball")
+                {
+                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Ball.Speed = new Vector2(Ball.Speed.X * 1.5f, Ball.Speed.Y * 1.5f);
+                    activeBonus = false;
+                    ListActiveBonus.Remove(bonus);
+                }
+            }
+        }
+
+        base.Update(gameTime);
+    }
+
+    public override void Draw(GameTime gameTime)
+    {
+        Paddle.Draw(gameTime);
+        Ball.Draw(gameTime);
+
+        ListBricks.Draw();
+
+        foreach (Ball b in ListBall)
+        {
+            Batch.Draw(b.SpriteTexture, b.Position, Color.White);
+        }
+
+        foreach (Bonus b in ListBonus)
+        {
+            Batch.Draw(b.SpriteTexture, b.Position, Color.White);
+        }
+
+        Batch.DrawString(
+            Asset.GetFont("SubTitle"), 
+            "Score : " + CurrentScore,
+            new Vector2(10, 10),
+            Color.White);
+        
+        Batch.DrawString(
+                Asset.GetFont("Text"),
+                String.Format(
+                    "Ball list count = {0} Timer Bonus = {1} Bonus active = {2}", 
+                    ListBall.Count, Math.Ceiling(timerBonus), activeBonus.ToString()),
+                new Vector2(10, ScreenSize.height - 50),
+                Color.White);
+
+        base.Draw(gameTime);
     }
 }

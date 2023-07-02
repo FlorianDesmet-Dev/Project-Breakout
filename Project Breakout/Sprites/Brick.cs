@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace ProjectBreakout
 {
@@ -6,67 +7,59 @@ namespace ProjectBreakout
     {
         public enum BrickType
         {
-            Green,
-            Orange,
-            Violet
+            Blue,
+            Red,
+            Yellow
         }
 
         public enum BrickState
         {
-            Intact,
-            Crack,
-            Break
+            Full,
+            TwoBar,
+            OneBar
         }
 
-        public string Type { get; private set; }
-        public string State { get; private set; }
-        public int Strength { get; set; }
-
-        public Brick(string pType, string pState) : base()
+        public Brick(string pNameImage ,string pType, string pState) : base(pNameImage, pType, pState)
         {
-            Type = pType;
-            State = pState;
-            SpriteTexture = Asset.GetTexture("Brick_" + Type + "_" + State);
-
-            Strength = 1;
+            Life = 1;
         }
 
         public void ChangeState(BrickState pState)
         {
             switch (pState)
             {
-                case BrickState.Intact:
-                    State = "intact";
+                case BrickState.Full:
+                    State = "Full";
                     break;
-                case BrickState.Crack:
-                    State = "crack";
+                case BrickState.TwoBar:
+                    State = "2-3";
                     break;
-                case BrickState.Break:
-                    State = "break";
+                case BrickState.OneBar:
+                    State = "1-3";
                     break;
                 default:
                     break;
             }
-            SpriteTexture = Asset.GetTexture("Brick_" + Type + "_" + State);
+            SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
         }
 
         public void ChangeType(BrickType pType)
         {
             switch (pType)
             {
-                case BrickType.Green:
-                    Type = "green";
+                case BrickType.Blue:
+                    Type = "Blue";
                     break;
-                case BrickType.Orange:
-                    Type = "orange";
+                case BrickType.Red:
+                    Type = "Red";
                     break;
-                case BrickType.Violet:
-                    Type = "violet";
+                case BrickType.Yellow:
+                    Type = "Yellow";
                     break;
                 default:
                     break;
             }
-            SpriteTexture = Asset.GetTexture("Brick_" + Type + "_" + State);
+            SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
         }
 
         public override void Load()
@@ -77,12 +70,26 @@ namespace ProjectBreakout
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            switch (Life)
+            {
+                case 1:
+                    ChangeState(Brick.BrickState.OneBar);
+                    break;
+                case 2:
+                    ChangeState(Brick.BrickState.TwoBar);
+                    break;
+                case 3:
+                    ChangeState(Brick.BrickState.Full);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            // Batch.DrawString(Asset.GetFont("FontMenu"), "" + Strength, Position, Color.White);
         }
     }
 }
