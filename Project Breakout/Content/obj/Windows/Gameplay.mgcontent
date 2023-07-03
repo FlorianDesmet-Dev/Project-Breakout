@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Gameplay.ogg</SourceFile>
+  <SourceTime>2023-07-03T15:57:47.906+02:00</SourceTime>
+  <DestFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Gameplay.xnb</DestFile>
+  <DestTime>2023-07-03T15:58:14.4695874+02:00</DestTime>
+  <Importer>OggImporter</Importer>
+  <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2022-07-26T13:44:56+02:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Gameplay.wma</string>
+  </BuildOutput>
+</PipelineBuildEvent>

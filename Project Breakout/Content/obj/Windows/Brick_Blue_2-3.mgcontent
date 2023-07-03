@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_2-3.png</SourceFile>
-  <SourceTime>2023-06-29T14:41:52.0946451+02:00</SourceTime>
+  <SourceTime>2023-07-03T11:52:27.6389265+02:00</SourceTime>
   <DestFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Brick_Blue_2-3.xnb</DestFile>
-  <DestTime>2023-07-01T10:15:42.0192872+02:00</DestTime>
+  <DestTime>2023-07-03T11:59:39.6181135+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

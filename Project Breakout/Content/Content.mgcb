@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Background_scene.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Background_scene.png
-
 #begin Ball_Big.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -241,6 +229,12 @@
 /processorParam:TextureFormat=Color
 /build:fast_ball.png
 
+#begin Gameplay.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Gameplay.ogg
+
 #begin Heart_1-2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -301,6 +295,18 @@
 /processorParam:TextureFormat=Color
 /build:Heart_Full.png
 
+#begin HitSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:HitSound.wav
+
+#begin Intro.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Intro.ogg
+
 #begin inverted_commands.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -312,6 +318,66 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:inverted_commands.png
+
+#begin Layer_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Layer_0.png
+
+#begin Layer_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Layer_1.png
+
+#begin Layer_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Layer_2.png
+
+#begin Layer_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Layer_3.png
+
+#begin Layer_4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Layer_4.png
 
 #begin multiball.png
 /importer:TextureImporter
@@ -349,18 +415,6 @@
 /processorParam:TextureFormat=Color
 /build:Paddle_Blue_Small.png
 
-#begin Paddle_Blue_XLarge.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Paddle_Blue_XLarge.png
-
 #begin Paddle_Blue_XXLarge.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -397,18 +451,6 @@
 /processorParam:TextureFormat=Color
 /build:Paddle_Red_Small.png
 
-#begin Paddle_Red_XLarge.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Paddle_Red_XLarge.png
-
 #begin Paddle_Red_XXLarge.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -444,18 +486,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Paddle_Yellow_Small.png
-
-#begin Paddle_Yellow_XLarge.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Paddle_Yellow_XLarge.png
 
 #begin Paddle_Yellow_XXLarge.png
 /importer:TextureImporter
