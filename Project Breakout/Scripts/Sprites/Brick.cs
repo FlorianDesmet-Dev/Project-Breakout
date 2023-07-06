@@ -30,18 +30,18 @@ internal class Brick : Sprite
         switch (pState)
         {
             case BrickState.Full:
-                State = "Full";
+                Lenght = "Full";
                 break;
             case BrickState.TwoBar:
-                State = "2-3";
+                Lenght = "2-3";
                 break;
             case BrickState.OneBar:
-                State = "1-3";
+                Lenght = "1-3";
                 break;
             default:
                 break;
         }
-        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
+        SpriteTexture = _assets.GetTexture(NameImage + "_" + Color + "_" + Lenght);
     }
 
     public void ChangeType(BrickType pType)
@@ -49,18 +49,18 @@ internal class Brick : Sprite
         switch (pType)
         {
             case BrickType.Blue:
-                Type = "Blue";
+                Color = "Blue";
                 break;
             case BrickType.Red:
-                Type = "Red";
+                Color = "Red";
                 break;
             case BrickType.Yellow:
-                Type = "Yellow";
+                Color = "Yellow";
                 break;
             default:
                 break;
         }
-        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
+        SpriteTexture = _assets.GetTexture(NameImage + "_" + Color + "_" + Lenght);
     }
 
     public override void Load()

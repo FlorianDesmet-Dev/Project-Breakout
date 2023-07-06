@@ -11,7 +11,12 @@ namespace ProjectBreakout
         protected IScreenSize _screenSize { get; private set; }
         protected GameState _gameState { get; set; }
 
-        private Background[] Layers { get; set; }
+        protected SpriteFont TitleFont { get; set; }
+        protected Vector2 SizeFont { get; set; }
+        protected Vector2 TitlePosition { get; set; }
+        protected Vector2 ShadePosition { get; set; }
+
+        protected Background[] Backgrounds { get; private set; }
 
         public Scene()
         {
@@ -19,18 +24,20 @@ namespace ProjectBreakout
             _assets = ServiceLocator.GetService<IGetAssets>();
             _screenSize = ServiceLocator.GetService<IScreenSize>();
             _gameState = ServiceLocator.GetService<GameState>();
+            Backgrounds = new Background[5];
+            
+            float speed = -0.02f;
+
+            for (int i = 0; i < Backgrounds.Length; i++)
+            {
+                Backgrounds[i] = new("Layer_" + i, speed);
+                speed -= 0.04f;
+            }
         }
 
         public virtual void Load()
         {
-            Layers = new Background[5];
-            float speed = -0.1f;
-
-            for (int i = 0; i < Layers.Length; i++)
-            {
-                Layers[i] = new("Layer_" + i, speed);
-                speed -= 0.2f;
-            }
+            
         }
 
         public virtual void Unload()
@@ -40,17 +47,14 @@ namespace ProjectBreakout
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (Background layer in Layers)
-            {
-                layer.Update(gameTime);
-            }
+            
         }
 
         public virtual void Draw(GameTime gameTime)
         {
-            foreach (Background layer in Layers)
+            foreach (Background background in Backgrounds)
             {
-                layer.Draw(gameTime);
+                background.Draw(gameTime);
             }
         }
     }

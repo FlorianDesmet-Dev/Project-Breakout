@@ -1,26 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace ProjectBreakout;
 
 internal class SceneGameover : Scene
 {
-    public SpriteFont TitleFont { get; private set; }
-    public SpriteFont TextFont { get; private set; }
-    public Vector2 GameoverPosition { get; private set; }
     public Vector2 ScorePosition { get; private set; }
 
     public int Score { get; private set; }
 
     public SceneGameover() : base()
     {
-        TitleFont = _assets.GetFont("TitleFont");
-        TextFont = _assets.GetFont("SubTitle");
+        TitleFont = _assets.GetFont("Title");
 
-        GameoverPosition = new Vector2(
-            _screenSize.width / 2 - TitleFont.MeasureString("Game over !").Length() / 2,
-            _screenSize.height / 2);
+        SizeFont = TitleFont.MeasureString("GAMEOVER");
+
+        TitlePosition = new Vector2(
+            _screenSize.width / 2 - SizeFont.X / 2,
+            _screenSize.height / 2 - SizeFont.Y / 2);
+
+        ShadePosition = new Vector2(
+            _screenSize.width / 2 - SizeFont.X / 2 + 5,
+            _screenSize.height / 2 - SizeFont.Y / 2 + 5);
     }
 
     public override void Load()
@@ -45,7 +46,7 @@ internal class SceneGameover : Scene
     {
         base.Draw(gameTime);
 
-        _spriteBatch.DrawString(TitleFont, "Game over !", GameoverPosition, Color.White);
-        _spriteBatch.DrawString(TextFont, string.Format("Score : {0}", Score), new Vector2(10, 10), Color.White);
+        _spriteBatch.DrawString(TitleFont, "GAMEOVER", ShadePosition, Color.DarkRed);
+        _spriteBatch.DrawString(TitleFont, "GAMEOVER", TitlePosition, Color.White);
     }
 }

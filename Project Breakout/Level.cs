@@ -1,13 +1,36 @@
-﻿internal class Level
+﻿using ProjectBreakout;
+
+internal class Level
 {
     public string Author { get; set; }
-    public int Lines { get; private set; }
-    public int Columns { get; private set; }
+    public int Lines { get; set; }
+    public int Columns { get; set; }
     public int[][] Map { get; set; }
+
+    public ListBricks ListBricks { get; private set; }
 
     public Level()
     {
-        Lines = 10;
-        Columns = 9;
+        ListBricks = new();
+    }
+
+    public void Load()
+    {
+        ListBricks.Load(Lines, Columns, Map);
+    }
+
+    public void Unload()
+    {
+
+    }
+
+    public void Update()
+    {
+
+    }
+
+    public void Draw()
+    {
+        ListBricks.Draw();
     }
 }

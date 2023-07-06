@@ -6,98 +6,169 @@ namespace ProjectBreakout;
 
 internal class Paddle : Sprite
 {
-    public enum PaddleType
+    public enum PaddleColor
     {
         Blue,
         Red,
         Yellow
     }
 
-    public enum PaddleState
+    public enum PaddleLenght
     {
         Small,
         Large,
         XXLarge
     }
+    
+    private Texture2D Heart { get; set; }
 
-    public float Position_x { get; private set; }
-    public float Position_y { get; private set; }
-    public Texture2D Heart { get; private set; }
+    public PaddleColor PColor { get; private set; }
+    public PaddleLenght PLenght { get; private set; }
 
-    public PaddleType PT { get; private set; }
-    public PaddleState PS { get; private set; }
-
-    MouseState oldMouseState;
+    private KeyboardState NewKeyboardState { get; set; }
+    private KeyboardState OldKeyboardState { get; set; }
 
     public Paddle(string pNameImage, string pType, string pState) : base(pNameImage, pType, pState)
     {
-        Heart = Asset.GetTexture("Heart_Full");
+        Heart = _assets.GetTexture("Heart_Full");
         Life = 3;
 
-        Position_x = ScreenSize.width / 2 - SpriteTexture.Width / 2;
-        Position_y = ScreenSize.height - SpriteTexture.Height * 4;
+        Speed = new Vector2(8, 0);
 
-        PS = PaddleState.Large;
-        PT = PaddleType.Blue;
+        PLenght = PaddleLenght.Large;
+        PColor = PaddleColor.Blue;
+
+        OldKeyboardState = Keyboard.GetState();
     }
 
     public override void Load()
     {
-        SetPosition(Position_x, Position_y);
+        SetPosition(
+            ScreenSize.width / 2 - SpriteTexture.Width / 2, 
+            ScreenSize.height - SpriteTexture.Height * 4);
 
         base.Load();
     }
 
-    public void ChangeState(PaddleState pState)
+    public void ChangeState(PaddleLenght pState)
     {
         switch (pState)
         {
-            case PaddleState.Small:
-                State = "Small";
-                PS = PaddleState.Small;
+            case PaddleLenght.Small:
+                Lenght = "Small";
+                PLenght = PaddleLenght.Small;
                 break;
-            case PaddleState.Large:
-                State = "Large";
-                PS = PaddleState.Large;
+            case PaddleLenght.Large:
+                Lenght = "Large";
+                PLenght = PaddleLenght.Large;
                 break;
-            case PaddleState.XXLarge:
-                State = "XXLarge";
-                PS = PaddleState.XXLarge;
+            case PaddleLenght.XXLarge:
+                Lenght = "XXLarge";
+                PLenght = PaddleLenght.XXLarge;
                 break;
             default:
                 break;
         }
 
-        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
+        SpriteTexture = _assets.GetTexture(NameImage + "_" + Color + "_" + Lenght);
     }
 
-    public void ChangeType(PaddleType pType)
+    public void ChangeType(PaddleColor pType)
     {
         switch (pType)
         {
-            case PaddleType.Blue:
-                Type = "Blue";
-                PT = PaddleType.Blue;
+            case PaddleColor.Blue:
+                Color = "Blue";
+                PColor = PaddleColor.Blue;
                 break;
-            case PaddleType.Red:
-                Type = "Red";
-                PT = PaddleType.Red;
+            case PaddleColor.Red:
+                Color = "Red";
+                PColor = PaddleColor.Red;
                 break;
-            case PaddleType.Yellow:
-                Type = "Yellow";
-                PT = PaddleType.Yellow;
+            case PaddleColor.Yellow:
+                Color = "Yellow";
+                PColor = PaddleColor.Yellow;
                 break;
             default:
                 break;
         }
 
-        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
+        SpriteTexture = _assets.GetTexture(NameImage + "_" + Color + "_" + Lenght);
     }
 
-    public void Controller()
+    public void Commands()
     {
-        float mouseGSX = Mouse.GetState().X - Width / 2;
-        SetPosition(mouseGSX, Position.Y);
+        NewKeyboardState = Keyboard.GetState();
+
+        if (NewKeyboardState.IsKeyDown(Keys.Right))
+        {
+            Position = new Vector2(Position.X + Speed.X, Position.Y);
+        } 
+        else if (NewKeyboardState.IsKeyDown(Keys.Left))
+        {
+            Position = new Vector2(Position.X - Speed.X, Position.Y);
+        }
+
+        if (NewKeyboardState.IsKeyDown(Keys.C) &&
+            OldKeyboardState != NewKeyboardState)
+        {
+            switch (Color)
+            {
+                case "Blue":
+                    ChangeType(PaddleColor.Red);
+                    break;
+                case "Red":
+                    ChangeType(PaddleColor.Yellow);
+                    break;
+                case "Yellow":
+                    ChangeType(PaddleColor.Blue);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        OldKeyboardState = NewKeyboardState;
+    }
+
+    public void InvertedCommands()
+    {
+        NewKeyboardState = Keyboard.GetState();
+
+        if (NewKeyboardState.IsKeyDown(Keys.Right))
+        {
+            Position = new Vector2(Position.X - Speed.X, Position.Y);
+        }
+        else if (NewKeyboardState.IsKeyDown(Keys.Left))
+        {
+            Position = new Vector2(Position.X + Speed.X, Position.Y);
+        }
+
+        if (NewKeyboardState.IsKeyDown(Keys.C) &&
+            OldKeyboardState != NewKeyboardState)
+        {
+            switch (Color)
+            {
+                case "Blue":
+                    ChangeType(PaddleColor.Red);
+                    break;
+                case "Red":
+                    ChangeType(PaddleColor.Yellow);
+                    break;
+                case "Yellow":
+                    ChangeType(PaddleColor.Blue);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        OldKeyboardState = NewKeyboardState;
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        BoundingBox = new Rectangle((int)Position.X, (int)Position.Y + 4, Width, Height - 4);
 
         if (Position.X + Width >= ScreenSize.width)
         {
@@ -107,34 +178,6 @@ internal class Paddle : Sprite
         {
             Position = new Vector2(0, Position.Y);
         }
-
-        MouseState newMouseState = Mouse.GetState();
-
-        if (newMouseState.RightButton == ButtonState.Pressed &&
-            oldMouseState != newMouseState)
-        {
-            switch (Type)
-            {
-                case "Blue":
-                    ChangeType(PaddleType.Red);
-                    break;
-                case "Red":
-                    ChangeType(PaddleType.Yellow);
-                    break;
-                case "Yellow":
-                    ChangeType(PaddleType.Blue);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        oldMouseState = newMouseState;
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
     }
 
     public override void Draw(GameTime gameTime)
@@ -145,7 +188,11 @@ internal class Paddle : Sprite
 
         for (int i = 1; i <= Life; i++)
         {
-            _spriteBatch.Draw(Heart, new Vector2(offset_x, 0), Color.White);
+            _spriteBatch.Draw(
+                Heart, 
+                new Vector2(ScreenSize.width - Heart.Width - offset_x - 10, ScreenSize.height - Heart.Height - 10), 
+                Microsoft.Xna.Framework.Color.White);
+            
             offset_x += Heart.Width;
         }
     }

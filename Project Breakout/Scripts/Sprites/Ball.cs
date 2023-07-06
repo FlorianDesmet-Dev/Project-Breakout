@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace ProjectBreakout;
-
 internal class Ball : Sprite
 {
-    public enum BallType
+    public enum BallColor
     {
         Blue,
         Red,
@@ -12,11 +12,14 @@ internal class Ball : Sprite
         Big
     }
 
-    public BallType BT { get; set; }
+    public BallColor BType { get; set; }
+    public SoundEffect HitSound { get; private set; }
+
 
     public Ball(string pNameImage, string pType) : base(pNameImage, pType)
     {
-        BT = BallType.Blue;
+        BType = BallColor.Blue;
+        HitSound = _assets.GetSoundEffect("HitSound");
     }
 
     public override void Load()
@@ -24,46 +27,126 @@ internal class Ball : Sprite
         base.Load();
     }
 
-    public void ChangeType(BallType pType)
+    public void ChangeType(BallColor pType)
     {
         switch (pType)
         {
-            case BallType.Blue:
-                Type = "Blue";
-                BT = BallType.Blue;
+            case BallColor.Blue:
+                Color = "Blue";
+                BType = BallColor.Blue;
                 break;
-            case BallType.Red:
-                Type = "Red";
-                BT = BallType.Red;
+            case BallColor.Red:
+                Color = "Red";
+                BType = BallColor.Red;
                 break;
-            case BallType.Yellow:
-                Type = "Yellow";
-                BT = BallType.Yellow;
+            case BallColor.Yellow:
+                Color = "Yellow";
+                BType = BallColor.Yellow;
                 break;
-            case BallType.Big:
-                Type = "Big";
-                BT = BallType.Big;
+            case BallColor.Big:
+                Color = "Big";
+                BType = BallColor.Big;
                 break;
             default:
                 break;
         }
-        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type);
+        SpriteTexture = _assets.GetTexture(NameImage + "_" + Color);
     }
 
     public void StickyBall(Paddle pPaddle)
     {
         SetPosition(
             pPaddle.Position.X + pPaddle.Width / 2 - Width / 2,
-            pPaddle.Position.Y - Height);
+            pPaddle.Position.Y - Height + 4);
 
         Speed = new Vector2(3, -3);
     }
 
+    public void FastBall()
+    {
+        float fastSpeed_x;
+        float fastSpeed_y;
+
+        if (Speed.X > 0 && Speed.Y > 0)
+        {
+            fastSpeed_x = Speed.X + 1;
+            fastSpeed_y = Speed.Y + 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+        else if (Speed.X < 0 && Speed.Y < 0)
+        {
+            fastSpeed_x = Speed.X - 1;
+            fastSpeed_y = Speed.Y - 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+        else if (Speed.X > 0 && Speed.Y < 0)
+        {
+            fastSpeed_x = Speed.X + 1;
+            fastSpeed_y = Speed.Y - 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+        else if (Speed.X < 0 && Speed.Y > 0)
+        {
+            fastSpeed_x = Speed.X - 1;
+            fastSpeed_y = Speed.Y + 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+    }
+
+    public void SlowBall()
+    {
+        float fastSpeed_x;
+        float fastSpeed_y;
+
+        if (Speed.X > 0 && Speed.Y > 0)
+        {
+            fastSpeed_x = Speed.X - 1;
+            fastSpeed_y = Speed.Y - 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+        else if (Speed.X < 0 && Speed.Y < 0)
+        {
+            fastSpeed_x = Speed.X + 1;
+            fastSpeed_y = Speed.Y + 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+        else if (Speed.X > 0 && Speed.Y < 0)
+        {
+            fastSpeed_x = Speed.X - 1;
+            fastSpeed_y = Speed.Y + 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+        else if (Speed.X < 0 && Speed.Y > 0)
+        {
+            fastSpeed_x = Speed.X + 1;
+            fastSpeed_y = Speed.Y - 1;
+            Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+    }
+
+    public void HitX()
+    {
+        if (!HitSound.Play())
+        {
+            HitSound.Play();
+        }
+        ChangeDirectionX();
+    }
+
+    public void HitY()
+    {
+        if (!HitSound.Play())
+        {
+            HitSound.Play();
+        }
+        ChangeDirectionY();
+    }
+
     public override void Update(GameTime gameTime)
     {
-        BounceLimit();
-
         base.Update(gameTime);
+
+        BounceLimit();
     }
 
     public override void Draw(GameTime gameTime)

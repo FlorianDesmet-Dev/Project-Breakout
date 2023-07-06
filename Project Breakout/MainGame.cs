@@ -29,8 +29,8 @@ internal class MainGame : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
-        _graphics.PreferredBackBufferWidth = 576;
-        _graphics.PreferredBackBufferHeight = 320;
+        _graphics.PreferredBackBufferWidth = 832;
+        _graphics.PreferredBackBufferHeight = 608;
         _graphics.ApplyChanges();            
 
         base.Initialize();

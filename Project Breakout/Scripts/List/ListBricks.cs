@@ -39,6 +39,11 @@ internal class ListBricks
         }
     }
 
+    public void Unload()
+    {
+        
+    }
+
     public void Draw()
     {
         foreach (Brick b in Bricks)

@@ -1,75 +1,80 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Text.Json;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace ProjectBreakout;
 
 internal class SceneGameplay : Scene
 {
+    public LevelManager CurrentLevel { get; private set; }
+
     public Paddle Paddle { get; private set; }
     public Ball Ball { get; private set; }
-
-    public ListBricks ListBricks { get; private set; }
 
     public List<Ball> ListBall { get; private set; }
     public List<Bonus> ListBonus { get; private set; }
     public List<Bonus> ListActiveBonus { get; private set; }
-    public List<Enemy> ListEnemy { get; private set; }
+    public List<EnemyBlue> ListEnemyBlue { get; private set; }
+    public List<EnemyYellow> ListEnemyYellow { get; private set; }
+
+    private Vector2 OldSpeedBall { get; set; }
 
     public bool StickyBall { get; private set; }
     public bool CollisionBrick { get; private set; }
     public bool CollisionPaddle { get; private set; }
 
     public int CurrentScore { get; private set; }
+    public string[] BonusType { get; private set; }
+
+    public Song SongGameplay { get; private set; }    
+    
+    float timerEnemy;
+    float timerBonus;
+
+    bool invertedCommands;
+    bool fastBall;
+    bool slowBall;
+    bool multiBall;
 
     KeyboardState newKeyboardState;
     KeyboardState oldKeyboardState;
-
-    public string[] BonusType { get; private set; }
-
-    float timerEnemy;
-    float timerBonus;
-    bool activeBonus;
-
-    public SoundEffect HitSound { get; private set; }
-    public Song Gameplay { get; private set; }
 
     Random random;
 
     public SceneGameplay() : base()
     {
-        Paddle = new("Paddle", "Blue", "Large");
-        Ball = new("Ball", Paddle.Type);
+        CurrentLevel = new();
 
-        ListBricks = new();
+        Paddle = new("Paddle", "Blue", "Large");
+        Ball = new("Ball", Paddle.Color);
+
         ListBonus = new();
         ListActiveBonus = new();
         ListBall = new();
-        ListEnemy = new();
+        ListEnemyBlue = new();
+        ListEnemyYellow = new();
 
         StickyBall = true;
         CollisionBrick = false;
         CollisionPaddle = true;
 
         CurrentScore = 0;
-        oldKeyboardState = Keyboard.GetState();
         random = new();
 
-        timerBonus = 15;
-        timerEnemy = random.Next(5, 11);
+        timerBonus = 0;
+        timerEnemy = random.Next(10, 21);
 
-        HitSound = _assets.GetSoundEffect("HitSound");
-        Gameplay = _assets.GetSong("Gameplay");
+        SongGameplay = _assets.GetSong("Gameplay");
 
-        MediaPlayer.Play(Gameplay);
+        MediaPlayer.Play(SongGameplay);
         MediaPlayer.IsRepeating = true;
+
+        oldKeyboardState = Keyboard.GetState();
     }
 
     public override void Load()
@@ -77,19 +82,18 @@ internal class SceneGameplay : Scene
         base.Load();
 
         // Load Level
-        string fileName = "../../../Levels/level_1.json";
-        string levelJsonString = File.ReadAllText(fileName);
-        Level currentLevel = JsonSerializer.Deserialize<Level>(levelJsonString);
+        CurrentLevel.LoadLevel(1);
+        Debug.WriteLine("Author = " + CurrentLevel.Level.Author);
+        Debug.WriteLine("Lines = " + CurrentLevel.Level.Lines);
+        Debug.WriteLine("Columns = " + CurrentLevel.Level.Columns);
 
         // Load Sprites
         Paddle.Load();
 
         Ball.SetPosition(
             Paddle.Position.X + Paddle.Width / 2 - Ball.Width / 2,
-            Paddle.Position.Y - Ball.Height);
+            Paddle.Position.Y - Ball.Height / 2);
         Ball.Load();
-
-        ListBricks.Load(currentLevel.Lines, currentLevel.Columns, currentLevel.Map);
 
         BonusType = new string[7];
         BonusType[0] = "big_ball";
@@ -110,27 +114,56 @@ internal class SceneGameplay : Scene
         base.Unload();
     }
 
+    public void CreateBonus(Brick pBrick)
+    {
+        int probaBonus = random.Next(0, 2);
+        Debug.WriteLine("Proba = " + probaBonus);
+
+        if (probaBonus != 0 && timerBonus <= 0 && !multiBall && !fastBall && !slowBall)
+        {
+            Bonus randomBonus = new(BonusType[random.Next(0, BonusType.Length)]);
+            randomBonus.SetPosition(
+            pBrick.Position.X + pBrick.Width / 2 - randomBonus.Width / 2,
+                pBrick.Position.Y);
+
+            ListBonus.Add(randomBonus);
+        }
+    }
+
     public override void Update(GameTime gameTime)
     {
-        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+        foreach (Background background in Backgrounds)
         {
-            StickyBall = false;
-            CollisionPaddle = false;
+            background.Update(gameTime);
         }
-
-        // PADDLE
-        Paddle.Controller();
-        Paddle.Update(gameTime);
 
         newKeyboardState = Keyboard.GetState();
 
         if (newKeyboardState.IsKeyDown(Keys.Space) &&
             oldKeyboardState != newKeyboardState)
         {
-
+            StickyBall = false;
+            CollisionPaddle = false;
         }
 
         oldKeyboardState = newKeyboardState;
+
+        // PADDLE
+        if (!invertedCommands)
+        {
+            Paddle.Commands();
+        }
+        else
+        {
+            Paddle.InvertedCommands();
+        }
+
+        Paddle.Update(gameTime);
+
+        if (Paddle.Life == 0)
+        {
+            _gameState.ChangeScene(GameState.SceneType.Gameover);
+        }
 
         // BALL
         Ball.Move();
@@ -141,83 +174,63 @@ internal class SceneGameplay : Scene
             Ball.StickyBall(Paddle);
         }
 
-        if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()))
+        if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()) &&
+            !StickyBall)
         {
-            if (!HitSound.Play())
-            {
-                HitSound.Play();
-            }
-            Ball.ChangeDirectionX();
+            Ball.HitX();
             CollisionPaddle = true;
-            Debug.WriteLine("Paddle Collision");
-            Debug.WriteLine("The ball is " + Ball.Type.ToString());
         }
-        else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()))
+        else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()) &&
+            !StickyBall)
         {
-            if (!HitSound.Play())
-            {
-                HitSound.Play();
-            }
-            Ball.ChangeDirectionY();
+            Ball.HitY();
             CollisionPaddle = true;
-            Debug.WriteLine("Paddle Collision");
-            Debug.WriteLine("The ball is " + Ball.Type.ToString());
         }
         else
         {
             CollisionPaddle = false;
         }
 
-        if (StickyBall || CollisionPaddle && Ball.BT != Ball.BallType.Big)
+        if (StickyBall || CollisionPaddle && Ball.BType != Ball.BallColor.Big)
         {
-            if (Paddle.PT == Paddle.PaddleType.Blue)
+            if (Paddle.PColor == Paddle.PaddleColor.Blue)
             {
-                Ball.ChangeType(Ball.BallType.Blue);
+                Ball.ChangeType(Ball.BallColor.Blue);
             }
-            else if (Paddle.PT == Paddle.PaddleType.Red)
+            else if (Paddle.PColor == Paddle.PaddleColor.Red)
             {
-                Ball.ChangeType(Ball.BallType.Red);
+                Ball.ChangeType(Ball.BallColor.Red);
             }
-            else if (Paddle.PT == Paddle.PaddleType.Yellow)
+            else if (Paddle.PColor == Paddle.PaddleColor.Yellow)
             {
-                Ball.ChangeType(Ball.BallType.Yellow);
+                Ball.ChangeType(Ball.BallColor.Yellow);
             }
         }
 
         // BRICKS
-        for (int i = ListBricks.Bricks.Count - 1; i >= 0; i--)
+        for (int i = CurrentLevel.Level.ListBricks.Bricks.Count - 1; i >= 0; i--)
         {
-            Brick brick = ListBricks.Bricks[i];
+            Brick brick = CurrentLevel.Level.ListBricks.Bricks[i];
             brick.Update(gameTime);
 
             foreach (Ball ball in ListBall)
             {
                 if (brick.BoundingBox.Intersects(ball.NextPositionX()))
                 {
-                    if (!HitSound.Play())
-                    {
-                        HitSound.Play();
-                    }
-                    ball.ChangeDirectionX();
+                    ball.HitX();
                     CollisionBrick = true;
-                    Debug.WriteLine("Brick Collision");
                 }
                 else if (brick.BoundingBox.Intersects(ball.NextPositionY()))
                 {
-                    if (!HitSound.Play())
-                    {
-                        HitSound.Play();
-                    }
-                    ball.ChangeDirectionY();
+                    ball.HitY();
                     CollisionBrick = true;
-                    Debug.WriteLine("Brick Collision");
                 }
                 else
                 {
                     CollisionBrick = false;
                 }
 
-                if (CollisionBrick && brick.Type == ball.Type)
+                if (CollisionBrick && brick.Color == ball.Color)
                 {
                     brick.Life--;
                     CurrentScore = ScoreManager.IncrementScore(10);
@@ -226,54 +239,67 @@ internal class SceneGameplay : Scene
 
             if (brick.BoundingBox.Intersects(Ball.NextPositionX()))
             {
-                if (!HitSound.Play())
-                {
-                    HitSound.Play();
-                }
-                Ball.ChangeDirectionX();
+                Ball.HitX();
                 CollisionBrick = true;
-                Debug.WriteLine("Brick Collision");
             }
             else if (brick.BoundingBox.Intersects(Ball.NextPositionY()))
             {
-                if (!HitSound.Play())
-                {
-                    HitSound.Play();
-                }
-                Ball.ChangeDirectionY();
+                Ball.HitY();
                 CollisionBrick = true;
-                Debug.WriteLine("Brick Collision");
             }
             else
             {
                 CollisionBrick = false;
             }
 
-            if (CollisionBrick && (brick.Type == Ball.Type || Ball.Type == "Big"))
+            if (CollisionBrick && (brick.Color == Ball.Color || Ball.Color == "Big"))
             {
                 brick.Life--;
-                CurrentScore = ScoreManager.IncrementScore(10);
+                
+                if (brick.Life >= 1)
+                {
+                    CurrentScore = ScoreManager.IncrementScore(10);
+                }
+            }
+
+            foreach (Enemy enemyYellow in ListEnemyYellow)
+            {
+                if (brick.BoundingBox.Intersects(enemyYellow.NextPositionX()))
+                {
+                    enemyYellow.ChangeDirectionX();
+
+                    if (brick.Life == 1)
+                    {
+                        brick.Life = 2;
+                    }
+                    else if (brick.Life == 2)
+                    {
+                        brick.Life = 3;
+                    }
+                }
+                else if (brick.BoundingBox.Intersects(enemyYellow.NextPositionY()))
+                {
+                    enemyYellow.ChangeDirectionY();
+
+                    if (brick.Life == 1)
+                    {
+                        brick.Life = 2;
+                    }
+                    else if (brick.Life == 2)
+                    {
+                        brick.Life = 3;
+                    }
+                }
             }
 
             if (brick.Life <= 0)
             {
-                ListBricks.Bricks.Remove(brick);
+                CurrentScore = ScoreManager.IncrementScore(100);
+                CurrentLevel.Level.ListBricks.Bricks.Remove(brick);
                 Debug.WriteLine("Remove brick");
 
                 // CREATE BONUS
-                int proba = random.Next(1, 7);
-                Debug.WriteLine("Proba = " + proba);
-
-                if (proba >= 4 && !activeBonus)
-                {
-                    Bonus randomBonus = new(BonusType[random.Next(0, BonusType.Length)]);
-
-                    randomBonus.SetPosition(
-                        brick.Position.X + brick.Width / 2 - randomBonus.Width / 2,
-                        brick.Position.Y);
-
-                    ListBonus.Add(randomBonus);
-                }
+                CreateBonus(brick);
             }
         }
 
@@ -281,11 +307,6 @@ internal class SceneGameplay : Scene
         {
             Paddle.Life--;
             StickyBall = true;
-
-            if (Paddle.Life == 0)
-            {
-                _gameState.ChangeScene(GameState.SceneType.Gameover);
-            }
         }
 
         // BONUS
@@ -297,106 +318,176 @@ internal class SceneGameplay : Scene
 
             if (bonus.BoundingBox.Intersects(Paddle.BoundingBox))
             {
-                activeBonus = true;
                 ListActiveBonus.Add(bonus);
                 ListBonus.Remove(bonus);
             }
         }
 
-        if (activeBonus)
+        for (int i = ListActiveBonus.Count - 1; i >= 0; i--)
         {
-            for (int i = ListActiveBonus.Count - 1; i >= 0; i--)
+            Bonus bonus = ListActiveBonus[i];
+
+            if (bonus.NameImage == "big_ball")
             {
-                Bonus bonus = ListActiveBonus[i];
+                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Ball.ChangeType(Ball.BallColor.Big);
 
-                if (bonus.NameImage == "big_ball")
+                if (timerBonus >= 10 || StickyBall)
                 {
-                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Ball.ChangeType(Ball.BallType.Big);
-
-                    if (timerBonus <= 0)
-                    {
-                        Ball.ChangeType(Ball.BallType.Blue);
-                        timerBonus = 15;
-                        activeBonus = false;
-                        ListActiveBonus.Remove(bonus);
-                    }
-                }
-                else if (bonus.NameImage == "big_bar")
-                {
-                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Paddle.ChangeState(Paddle.PaddleState.XXLarge);
-
-                    if (timerBonus <= 0)
-                    {
-                        Paddle.ChangeState(Paddle.PaddleState.Large);
-                        timerBonus = 15;
-                        activeBonus = false;
-                        ListActiveBonus.Remove(bonus);
-                    }
-                }
-                else if (bonus.NameImage == "fast_ball")
-                {
-                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Ball.Speed = new Vector2(Ball.Speed.X * 1.5f, Ball.Speed.Y * 1.5f);
-                    activeBonus = false;
+                    Ball.ChangeType(Ball.BallColor.Blue);
+                    timerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
-                else if (bonus.NameImage == "multiball")
+            }
+            else if (bonus.NameImage == "big_bar")
+            {
+                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Paddle.ChangeState(Paddle.PaddleLenght.XXLarge);
+
+                if (timerBonus >= 10)
                 {
-                    for (int j = 0; j <= 9; j++)
-                    {
-                        Ball newBall = new("Ball", Ball.Type);
-                        newBall.SetPosition(Ball.Position.X, Ball.Position.Y);
-
-                        foreach (Ball b in ListBall)
-                        {
-                            newBall = new("Ball", b.Type);
-                            newBall.SetPosition(b.Position.X, b.Position.Y);
-                        }
-
-                        int speed_x;
-                        int speed_y;
-                        do
-                        {
-                            speed_x = random.Next(-4, 4);
-                        } while (speed_x == 0);
-
-                        do
-                        {
-                            speed_y = random.Next(-4, 4);
-                        } while (speed_y == 0);
-
-                        newBall.Speed = new Vector2(speed_x, speed_y);
-                        ListBall.Add(newBall);
-                    }
-                    activeBonus = false;
+                    Paddle.ChangeState(Paddle.PaddleLenght.Large);
+                    timerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
-                else if (bonus.NameImage == "slow_ball")
+            }
+            else if (bonus.NameImage == "fast_ball")
+            {
+                OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
+                Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
+                Ball.FastBall();
+                fastBall = true;
+                ListActiveBonus.Remove(bonus);
+            }
+            else if (bonus.NameImage == "inverted_commands")
+            {
+                invertedCommands = true;
+
+                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (timerBonus >= 10)
                 {
-                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Ball.Speed = new Vector2(Ball.Speed.X / 1.5f, Ball.Speed.Y / 1.5f);
-                    activeBonus = false;
+                    invertedCommands = false;
+                    timerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
-                else if (bonus.NameImage == "small_bar")
-                {
-                    timerBonus -= 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Paddle.ChangeState(Paddle.PaddleState.Small);
+            }
+            else if (bonus.NameImage == "multiball")
+            {
+                multiBall = true;
 
-                    if (timerBonus <= 0)
+                for (int j = 0; j <= 9; j++)
+                {
+                    Ball newBall = new("Ball", Ball.Color);
+                    newBall.SetPosition(Ball.Position.X, Ball.Position.Y);
+
+                    foreach (Ball b in ListBall)
                     {
-                        Paddle.ChangeState(Paddle.PaddleState.Large);
-                        timerBonus = 15;
-                        activeBonus = false;
-                        ListActiveBonus.Remove(bonus);
+                        newBall = new("Ball", b.Color);
+                        newBall.SetPosition(b.Position.X, b.Position.Y);
                     }
+
+                    int speed_x;
+                    int speed_y;
+                    do
+                    {
+                        speed_x = random.Next(-4, 4);
+                    } while (speed_x < 2 && speed_x > -2);
+
+                    do
+                    {
+                        speed_y = random.Next(-4, 4);
+                    } while (speed_y < 2 && speed_y > -2);
+
+                    newBall.Speed = new Vector2(speed_x, speed_y);
+                    ListBall.Add(newBall);
+                }
+                ListActiveBonus.Remove(bonus);
+            }
+            else if (bonus.NameImage == "slow_ball")
+            {
+                OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
+                Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
+                Ball.SlowBall();
+                slowBall = true;
+                ListActiveBonus.Remove(bonus);
+            }
+            else if (bonus.NameImage == "small_bar")
+            {
+                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Paddle.ChangeState(Paddle.PaddleLenght.Small);
+
+                if (timerBonus >= 10)
+                {
+                    Paddle.ChangeState(Paddle.PaddleLenght.Large);
+                    timerBonus = 0;
+                    ListActiveBonus.Remove(bonus);
                 }
             }
         }
 
+        if (fastBall)
+        {
+            timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timerBonus >= 10)
+            {
+                if (Ball.Speed.X > 0 && Ball.Speed.Y > 0)
+                {
+                    Ball.Speed = new Vector2(OldSpeedBall.X, OldSpeedBall.Y);
+                }
+                else if (Ball.Speed.X < 0 && Ball.Speed.Y < 0)
+                {
+                    Ball.Speed = new Vector2(-OldSpeedBall.X, -OldSpeedBall.Y);
+                }
+                else if (Ball.Speed.X > 0 && Ball.Speed.Y < 0)
+                {
+                    Ball.Speed = new Vector2(OldSpeedBall.X, -OldSpeedBall.Y);
+                }
+                else if (Ball.Speed.X < 0 && Ball.Speed.Y > 0)
+                {
+                    Ball.Speed = new Vector2(-OldSpeedBall.X, OldSpeedBall.Y);
+                }
+
+                timerBonus = 0;
+                fastBall = false;
+            }
+        }
+
+        if (slowBall)
+        {
+            timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timerBonus >= 10)
+            {
+                if (Ball.Speed.X > 0 && Ball.Speed.Y > 0)
+                {
+                    Ball.Speed = new Vector2(OldSpeedBall.X, OldSpeedBall.Y);
+                }
+                else if (Ball.Speed.X < 0 && Ball.Speed.Y < 0)
+                {
+                    Ball.Speed = new Vector2(-OldSpeedBall.X, -OldSpeedBall.Y);
+                }
+                else if (Ball.Speed.X > 0 && Ball.Speed.Y < 0)
+                {
+                    Ball.Speed = new Vector2(OldSpeedBall.X, -OldSpeedBall.Y);
+                }
+                else if (Ball.Speed.X < 0 && Ball.Speed.Y > 0)
+                {
+                    Ball.Speed = new Vector2(-OldSpeedBall.X, OldSpeedBall.Y);
+                }
+
+                timerBonus = 0;
+                slowBall = false;
+            }
+        }
+
         // MULTIBALL
+        if (ListBall.Count == 0)
+        {
+            multiBall = false;
+        }
+
         for (int j = ListBall.Count - 1; j >= 0; j--)
         {
             Ball newBall = ListBall[j];
@@ -405,36 +496,74 @@ internal class SceneGameplay : Scene
 
             if (Paddle.BoundingBox.Intersects(newBall.NextPositionX()))
             {
-                newBall.ChangeDirectionX();
+                newBall.HitX();
                 CollisionPaddle = true;
-                Debug.WriteLine("Paddle Collision");
-                Debug.WriteLine("The ball is " + newBall.Type.ToString());
             }
             else if (Paddle.BoundingBox.Intersects(newBall.NextPositionY()))
             {
-                newBall.ChangeDirectionY();
+                newBall.HitY();
                 CollisionPaddle = true;
-                Debug.WriteLine("Paddle Collision");
-                Debug.WriteLine("The ball is " + newBall.Type.ToString());
             }
             else
             {
                 CollisionPaddle = false;
             }
 
-            if (CollisionPaddle && newBall.BT != Ball.BallType.Big)
+            if (CollisionPaddle && newBall.BType != Ball.BallColor.Big)
             {
-                if (Paddle.PT == Paddle.PaddleType.Blue)
+                if (Paddle.PColor == Paddle.PaddleColor.Blue)
                 {
-                    Ball.ChangeType(Ball.BallType.Blue);
+                    newBall.ChangeType(Ball.BallColor.Blue);
                 }
-                else if (Paddle.PT == Paddle.PaddleType.Red)
+                else if (Paddle.PColor == Paddle.PaddleColor.Red)
                 {
-                    Ball.ChangeType(Ball.BallType.Red);
+                    newBall.ChangeType(Ball.BallColor.Red);
                 }
-                else if (Paddle.PT == Paddle.PaddleType.Yellow)
+                else if (Paddle.PColor == Paddle.PaddleColor.Yellow)
                 {
-                    Ball.ChangeType(Ball.BallType.Yellow);
+                    newBall.ChangeType(Ball.BallColor.Yellow);
+                }
+            }
+
+            for (int i = ListEnemyBlue.Count - 1; i >= 0; i--)
+            {
+                EnemyBlue enemyBlue = ListEnemyBlue[i];
+
+                if (enemyBlue.EState != Enemy.EnemyState.Appear)
+                {
+                    if (enemyBlue.BoundingBox.Intersects(newBall.NextPositionX()))
+                    {
+                        newBall.HitX();
+                        CurrentScore = ScoreManager.IncrementScore(50);
+                        ListEnemyBlue.Remove(enemyBlue);
+                    }
+                    else if (enemyBlue.BoundingBox.Intersects(newBall.NextPositionY()))
+                    {
+                        newBall.HitY();
+                        CurrentScore = ScoreManager.IncrementScore(50);
+                        ListEnemyBlue.Remove(enemyBlue);
+                    }
+                }
+            }
+
+            for (int i = ListEnemyYellow.Count - 1; i >= 0; i--)
+            {
+                EnemyYellow enemyYellow = ListEnemyYellow[i];
+
+                if (enemyYellow.EState != Enemy.EnemyState.Appear)
+                {
+                    if (enemyYellow.BoundingBox.Intersects(newBall.NextPositionX()))
+                    {
+                        newBall.HitX();
+                        CurrentScore = ScoreManager.IncrementScore(50);
+                        ListEnemyYellow.Remove(enemyYellow);
+                    }
+                    else if (enemyYellow.BoundingBox.Intersects(newBall.NextPositionY()))
+                    {
+                        newBall.HitY();
+                        CurrentScore = ScoreManager.IncrementScore(50);
+                        ListEnemyYellow.Remove(enemyYellow);
+                    }
                 }
             }
 
@@ -447,30 +576,110 @@ internal class SceneGameplay : Scene
         // ENEMY
 
         timerEnemy -= 1 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        int probaEnemy = random.Next(0, 2);
 
-        Enemy[] newEnemy = new Enemy[2];
-        newEnemy[0] = new EnemyBlue("Enemy_1");
-        newEnemy[1] = new EnemyYellow("Enemy_2");
-
-        if (timerEnemy <= 0 && ListEnemy.Count < 3)
+        if (timerEnemy <= 0 && ListEnemyBlue.Count < 5)
         {
-            Enemy enemy = newEnemy[random.Next(0, newEnemy.Length)];
-            enemy.SetPosition(random.Next(0, _screenSize.width - enemy.Width), 0);
-            ListEnemy.Add(enemy);
-
-            timerEnemy = random.Next(5, 11);
+            if (probaEnemy == 0)
+            {
+                EnemyBlue enemyBlue = new("Enemy_1");
+                enemyBlue.SetPosition(random.Next(0, _screenSize.width - enemyBlue.Width), 0);
+                ListEnemyBlue.Add(enemyBlue);
+            }
+            else if (probaEnemy == 1)
+            {
+                EnemyYellow enemyYellow = new("Enemy_2");
+                enemyYellow.SetPosition(random.Next(0, _screenSize.width - enemyYellow.Width), 0);
+                ListEnemyYellow.Add(enemyYellow);
+            }
+            
+            timerEnemy = random.Next(10, 21);
         }
 
-        for (int i = ListEnemy.Count - 1; i >= 0; i--)
+        for (int i = ListEnemyBlue.Count - 1; i >= 0; i--)
         {
-            Enemy enemy = ListEnemy[i];
-            enemy.Update(gameTime);
-            Debug.WriteLine("State Machine = " + enemy.SM);
+            EnemyBlue enemyBlue = ListEnemyBlue[i];
+            enemyBlue.Update(gameTime);
 
-            if (enemy.Position.Y - enemy.Height * 2 >= _screenSize.height)
+            if (enemyBlue.Position.Y - enemyBlue.Height * 2 >= _screenSize.height)
             {
-                ListEnemy.Remove(enemy);
+                ListEnemyBlue.Remove(enemyBlue);
             }
+
+            if (enemyBlue.EState != Enemy.EnemyState.Appear)
+            {
+                if (enemyBlue.BoundingBox.Intersects(Ball.NextPositionX()))
+                {
+                    Ball.HitX();
+                    CurrentScore = ScoreManager.IncrementScore(50);
+                    ListEnemyBlue.Remove(enemyBlue);
+                }
+                else if (enemyBlue.BoundingBox.Intersects(Ball.NextPositionY()))
+                {
+                    Ball.HitY();
+                    CurrentScore = ScoreManager.IncrementScore(50);
+                    ListEnemyBlue.Remove(enemyBlue);
+                }
+            }
+
+            for (int j = enemyBlue.ListProjectiles.Count - 1; j >= 0; j--)
+            {
+                Projectile projectile = enemyBlue.ListProjectiles[j];
+
+                if (projectile.BoundingBox.Intersects(Paddle.BoundingBox))
+                {
+                    enemyBlue.ListProjectiles.Remove(projectile);
+                    Paddle.Life--;
+                }
+            }
+        }
+
+        for (int i = ListEnemyYellow.Count - 1; i >= 0; i--)
+        {
+            EnemyYellow enemyYellow = ListEnemyYellow[i];
+            enemyYellow.Update(gameTime);
+
+            if (enemyYellow.Position.Y - enemyYellow.Height * 2 >= _screenSize.height)
+            {
+                ListEnemyYellow.Remove(enemyYellow);
+            }
+
+            if (enemyYellow.EState != Enemy.EnemyState.Appear)
+            {
+                if (enemyYellow.BoundingBox.Intersects(Ball.NextPositionX()))
+                {
+                    Ball.HitX();
+                    CurrentScore = ScoreManager.IncrementScore(50);
+                    ListEnemyYellow.Remove(enemyYellow);
+                }
+                else if (enemyYellow.BoundingBox.Intersects(Ball.NextPositionY()))
+                {
+                    Ball.HitY();
+                    CurrentScore = ScoreManager.IncrementScore(50);
+                    ListEnemyYellow.Remove(enemyYellow);
+                }
+            }
+        }
+
+        if (CurrentLevel.Level.ListBricks.Bricks.Count == 0)
+        {
+            if (CurrentLevel.NumberLevel < 8)
+            {
+                CurrentLevel.NextLevel();
+            }
+            else
+            {
+                _gameState.ChangeScene(GameState.SceneType.Menu);
+            }
+
+            StickyBall = true;
+            timerEnemy = random.Next(10, 31);
+            timerBonus = 5;
+
+            ListBonus.RemoveAll(ListBonus.Remove);
+            ListEnemyBlue.RemoveAll(ListEnemyBlue.Remove);
+            ListEnemyYellow.RemoveAll(ListEnemyYellow.Remove);
+            ListBall.RemoveAll(ListBall.Remove);
         }
 
         base.Update(gameTime);
@@ -480,10 +689,10 @@ internal class SceneGameplay : Scene
     {
         base.Draw(gameTime);
 
+        CurrentLevel.Draw();
+
         Paddle.Draw(gameTime);
         Ball.Draw(gameTime);
-
-        ListBricks.Draw();
 
         foreach (Ball b in ListBall)
         {
@@ -495,26 +704,20 @@ internal class SceneGameplay : Scene
             _spriteBatch.Draw(b.SpriteTexture, b.Position, Color.White);
         }
 
-        foreach (Enemy e in ListEnemy)
+        foreach (EnemyBlue eBlue in ListEnemyBlue)
         {
-            _spriteBatch.Draw(e.SpriteTexture, e.Position, Color.White);
+            eBlue.Draw(gameTime);
+        }
+
+        foreach (EnemyYellow eYellow in ListEnemyYellow)
+        {
+            eYellow.Draw(gameTime);
         }
 
         _spriteBatch.DrawString(
-            _assets.GetFont("SubTitle"),
+            _assets.GetFont("TitleFont"),
             CurrentScore.ToString(),
             new Vector2(10, _screenSize.height - 32),
             Color.White);
-
-        _spriteBatch.DrawString(
-                _assets.GetFont("Text"),
-                string.Format(
-                "Ball list count = {0}" + "\n" +
-                "Timer Bonus = {1}" + "\n" +
-                "Bonus active = {2}" + "\n" +
-                "Timer Enemy = {3}",
-                ListBall.Count, Math.Ceiling(timerBonus), activeBonus.ToString(), Math.Ceiling(timerEnemy)),
-                new Vector2(_screenSize.width - 150, _screenSize.height - 70),
-                Color.White);
     }
 }

@@ -7,6 +7,7 @@ internal class Background
 {
     private SpriteBatch _spriteBatch { get; set; }
     private IGetAssets _assets { get; set; }
+    protected IScreenSize _screenSize { get; private set; }
 
     private float Speed { get; set; }
     private Vector2 Position { get; set; }
@@ -17,6 +18,7 @@ internal class Background
     {
         _spriteBatch = ServiceLocator.GetService<SpriteBatch>();
         _assets = ServiceLocator.GetService<IGetAssets>();
+        _screenSize = ServiceLocator.GetService<IScreenSize>();
 
         NameImage = pNameImage;
         Speed = pSpeed;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -9,7 +8,7 @@ namespace ProjectBreakout;
 
 internal abstract class Sprite
 {
-    protected IGetAssets Asset { get; private set; }
+    protected IGetAssets _assets { get; private set; }
     protected SpriteBatch _spriteBatch { get; private set; }
     protected IScreenSize ScreenSize { get; private set; }
 
@@ -24,40 +23,40 @@ internal abstract class Sprite
     public int Width { get { return SpriteTexture.Width; } }
     public int Height { get { return SpriteTexture.Height; } }
 
-    public string Type { get; protected set; }
-    public string State { get; protected set; }
+    public string Color { get; protected set; }
+    public string Lenght { get; protected set; }
 
     public Sprite(string pNameImage)
     {
-        Asset = ServiceLocator.GetService<IGetAssets>();
+        _assets = ServiceLocator.GetService<IGetAssets>();
         _spriteBatch = ServiceLocator.GetService<SpriteBatch>();
         ScreenSize = ServiceLocator.GetService<IScreenSize>();
         
         NameImage = pNameImage;
-        SpriteTexture = Asset.GetTexture(NameImage);
+        SpriteTexture = _assets.GetTexture(NameImage);
     }
 
-    public Sprite(string pNameImage, string pType)
+    public Sprite(string pNameImage, string pColor)
     {
-        Asset = ServiceLocator.GetService<IGetAssets>();
+        _assets = ServiceLocator.GetService<IGetAssets>();
         _spriteBatch = ServiceLocator.GetService<SpriteBatch>();
         ScreenSize = ServiceLocator.GetService<IScreenSize>();
 
         NameImage = pNameImage;
-        Type = pType;
-        SpriteTexture = Asset.GetTexture(pNameImage + "_" + Type);
+        Color = pColor;
+        SpriteTexture = _assets.GetTexture(pNameImage + "_" + Color);
     }
 
-    public Sprite(string pNameImage, string pType, string pState)
+    public Sprite(string pNameImage, string pColor, string pLenght)
     {
-        Asset = ServiceLocator.GetService<IGetAssets>();
+        _assets = ServiceLocator.GetService<IGetAssets>();
         _spriteBatch = ServiceLocator.GetService<SpriteBatch>();
         ScreenSize = ServiceLocator.GetService<IScreenSize>();
 
         NameImage = pNameImage;
-        Type = pType;
-        State = pState;
-        SpriteTexture = Asset.GetTexture(NameImage + "_" + Type + "_" + State);
+        Color = pColor;
+        Lenght = pLenght;
+        SpriteTexture = _assets.GetTexture(NameImage + "_" + Color + "_" + Lenght);
     }
 
     public virtual void Load()
@@ -98,7 +97,12 @@ internal abstract class Sprite
     {
         Position += Speed;
     }
-    
+
+    public virtual void Move(float pX, float pY)
+    {
+        Position = new Vector2(Position.X + pX , Position.Y + pY );
+    }
+
     public virtual void BounceLimit()
     {
         if (Position.X + Width >= ScreenSize.width)
@@ -125,6 +129,6 @@ internal abstract class Sprite
 
     public virtual void Draw(GameTime gameTime)
     {
-        _spriteBatch.Draw(SpriteTexture, Position, Color.White);
+        _spriteBatch.Draw(SpriteTexture, Position, Microsoft.Xna.Framework.Color.White);
     }
 }
