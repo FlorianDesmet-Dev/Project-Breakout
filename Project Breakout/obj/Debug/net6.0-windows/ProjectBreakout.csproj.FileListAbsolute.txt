@@ -81,10 +81,6 @@ D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakou
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Layer_3.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Layer_4.xnb
 D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\HitSound.xnb
-D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Intro.wma
-D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Intro.xnb
-D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Gameplay.wma
-D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Gameplay.xnb
 G:\Autres ordinateurs\Mon ordinateur\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Heart_3-4.xnb
 G:\Autres ordinateurs\Mon ordinateur\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Paddle_Blue_Small.xnb
 G:\Autres ordinateurs\Mon ordinateur\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Background_scene.xnb
@@ -178,3 +174,10 @@ D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakou
 G:\Autres ordinateurs\Mon ordinateur\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Bullet.xnb
 G:\Autres ordinateurs\Mon ordinateur\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\button.xnb
 G:\Autres ordinateurs\Mon ordinateur\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\Title.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\ButtonRestart.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\moonlight.wma
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\moonlight.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\synthwave-palms.wma
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\synthwave-palms.xnb
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\sky-lines.wma
+D:\Mon Drive\Gaming Campus\Soutenances\Module 2 - C# et Monogame\Project-Breakout\Project Breakout\Project Breakout\bin\Debug\net6.0-windows\Content\sky-lines.xnb

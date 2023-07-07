@@ -4,47 +4,49 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace ProjectBreakout;
 
 internal class SceneGameplay : Scene
 {
-    public LevelManager CurrentLevel { get; private set; }
+    // LEVEL
+    private LevelManager CurrentLevel { get; set; }
 
-    public Paddle Paddle { get; private set; }
-    public Ball Ball { get; private set; }
+    // SPRITES
+    private Paddle Paddle { get; set; }
+    private Ball Ball { get; set; }
 
-    public List<Ball> ListBall { get; private set; }
-    public List<Bonus> ListBonus { get; private set; }
-    public List<Bonus> ListActiveBonus { get; private set; }
-    public List<EnemyBlue> ListEnemyBlue { get; private set; }
-    public List<EnemyYellow> ListEnemyYellow { get; private set; }
+    //LIST
+    private List<Ball> ListBall { get; set; }
+    private List<Bonus> ListBonus { get; set; }
+    private List<Bonus> ListActiveBonus { get; set; }
+    private List<EnemyBlue> ListEnemyBlue { get; set; }
+    private List<EnemyYellow> ListEnemyYellow { get; set; }
+    private string[] BonusType { get; set; }
 
-    private Vector2 OldSpeedBall { get; set; }
+    // SCORE
+    private int CurrentScore { get; set; }
 
-    public bool StickyBall { get; private set; }
-    public bool CollisionBrick { get; private set; }
-    public bool CollisionPaddle { get; private set; }
-
-    public int CurrentScore { get; private set; }
-    public string[] BonusType { get; private set; }
-
-    public Song SongGameplay { get; private set; }    
+    // SOUNDS
+    private Song SongGameplay { get; set; }    
     
-    float timerEnemy;
-    float timerBonus;
+    // TIMERS
+    private float TimerCreateEnemy { get; set; }
+    private float TimerBonus { get; set; }
 
-    bool invertedCommands;
-    bool fastBall;
-    bool slowBall;
-    bool multiBall;
+    // BOOL
+    private bool InvertedCommands { get; set; }
+    private bool FastBall { get; set; }
+    private bool SlowBall { get; set; }
+    private bool MultiBall { get; set; }
+    private bool StickyBall { get; set; }
+    private bool CollisionBrick { get; set; }
+    private bool CollisionPaddle { get; set; }
 
-    KeyboardState newKeyboardState;
-    KeyboardState oldKeyboardState;
-
-    Random random;
+    // OTHER
+    private Vector2 OldSpeedBall { get; set; }
+    private Random Random { get; set; }
 
     public SceneGameplay() : base()
     {
@@ -58,36 +60,36 @@ internal class SceneGameplay : Scene
         ListBall = new();
         ListEnemyBlue = new();
         ListEnemyYellow = new();
-
-        StickyBall = true;
-        CollisionBrick = false;
-        CollisionPaddle = true;
-
-        CurrentScore = 0;
-        random = new();
-
-        timerBonus = 0;
-        timerEnemy = random.Next(10, 21);
-
-        SongGameplay = _assets.GetSong("Gameplay");
-
-        MediaPlayer.Play(SongGameplay);
-        MediaPlayer.IsRepeating = true;
-
-        oldKeyboardState = Keyboard.GetState();
     }
 
     public override void Load()
     {
         base.Load();
 
-        // Load Level
+        StickyBall = true;
+        CollisionBrick = false;
+        CollisionPaddle = true;
+
+        CurrentScore = 0;
+        Random = new();
+
+        TimerBonus = 0;
+        TimerCreateEnemy = Random.Next(10, 21);
+
+        SongGameplay = _assets.GetSong("moonlight");
+
+        MediaPlayer.Play(SongGameplay);
+        MediaPlayer.IsRepeating = true;
+
+        OldKeyboardState = Keyboard.GetState();
+
+        // LOAD LEVEL
         CurrentLevel.LoadLevel(1);
         Debug.WriteLine("Author = " + CurrentLevel.Level.Author);
         Debug.WriteLine("Lines = " + CurrentLevel.Level.Lines);
         Debug.WriteLine("Columns = " + CurrentLevel.Level.Columns);
 
-        // Load Sprites
+        // LOAD SPRITES
         Paddle.Load();
 
         Ball.SetPosition(
@@ -103,8 +105,6 @@ internal class SceneGameplay : Scene
         BonusType[4] = "multiball";
         BonusType[5] = "slow_ball";
         BonusType[6] = "small_bar";
-
-        StickyBall = true;
     }
 
     public override void Unload()
@@ -114,19 +114,57 @@ internal class SceneGameplay : Scene
         base.Unload();
     }
 
-    public void CreateBonus(Brick pBrick)
+    public void CreateBonus(float pX, float pY, int pWidth)
     {
-        int probaBonus = random.Next(0, 2);
+        int probaBonus = Random.Next(0, 2);
         Debug.WriteLine("Proba = " + probaBonus);
 
-        if (probaBonus != 0 && timerBonus <= 0 && !multiBall && !fastBall && !slowBall)
+        if (probaBonus != 0 && TimerBonus <= 0 && !MultiBall && !FastBall && !SlowBall)
         {
-            Bonus randomBonus = new(BonusType[random.Next(0, BonusType.Length)]);
-            randomBonus.SetPosition(
-            pBrick.Position.X + pBrick.Width / 2 - randomBonus.Width / 2,
-                pBrick.Position.Y);
+            Bonus randomBonus = new(BonusType[Random.Next(0, BonusType.Length)]);
+            randomBonus.SetPosition(pX + pWidth / 2 - randomBonus.Width / 2, pY);
 
             ListBonus.Add(randomBonus);
+        }
+    }
+
+    public void CreateEnemies(GameTime gameTime)
+    {
+        TimerCreateEnemy -= 1 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        int probaEnemy = Random.Next(0, 2);
+
+        if (TimerCreateEnemy <= 0 && ListEnemyBlue.Count < 5)
+        {
+            if (probaEnemy == 0)
+            {
+                EnemyBlue enemyBlue = new("Enemy_1");
+                enemyBlue.SetPosition(Random.Next(0, _screenSize.width - enemyBlue.Width), 0);
+                ListEnemyBlue.Add(enemyBlue);
+            }
+            else if (probaEnemy == 1)
+            {
+                EnemyYellow enemyYellow = new("Enemy_2");
+                enemyYellow.SetPosition(Random.Next(0, _screenSize.width - enemyYellow.Width), 0);
+                ListEnemyYellow.Add(enemyYellow);
+            }
+
+            TimerCreateEnemy = Random.Next(10, 21);
+        }
+    }
+
+    public void ChangeColorBall(Ball pBall)
+    {
+        if (Paddle.PColor == Paddle.PaddleColor.Blue)
+        {
+            pBall.ChangeColor(Ball.BallColor.Blue);
+        }
+        else if (Paddle.PColor == Paddle.PaddleColor.Red)
+        {
+            pBall.ChangeColor(Ball.BallColor.Red);
+        }
+        else if (Paddle.PColor == Paddle.PaddleColor.Yellow)
+        {
+            pBall.ChangeColor(Ball.BallColor.Yellow);
         }
     }
 
@@ -137,19 +175,19 @@ internal class SceneGameplay : Scene
             background.Update(gameTime);
         }
 
-        newKeyboardState = Keyboard.GetState();
+        NewKeyboardState = Keyboard.GetState();
 
-        if (newKeyboardState.IsKeyDown(Keys.Space) &&
-            oldKeyboardState != newKeyboardState)
+        if (NewKeyboardState.IsKeyDown(Keys.Space) &&
+            OldKeyboardState != NewKeyboardState)
         {
             StickyBall = false;
             CollisionPaddle = false;
         }
 
-        oldKeyboardState = newKeyboardState;
+        OldKeyboardState = NewKeyboardState;
 
-        // PADDLE
-        if (!invertedCommands)
+        // UPDATE PADDLE
+        if (!InvertedCommands)
         {
             Paddle.Commands();
         }
@@ -165,13 +203,13 @@ internal class SceneGameplay : Scene
             _gameState.ChangeScene(GameState.SceneType.Gameover);
         }
 
-        // BALL
+        // UPDATE BALL
         Ball.Move();
         Ball.Update(gameTime);
 
         if (StickyBall)
         {
-            Ball.StickyBall(Paddle);
+            Ball.StickyBall(Paddle.Position.X, Paddle.Position.Y, Paddle.Width);
         }
 
         if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()) &&
@@ -193,21 +231,10 @@ internal class SceneGameplay : Scene
 
         if (StickyBall || CollisionPaddle && Ball.BType != Ball.BallColor.Big)
         {
-            if (Paddle.PColor == Paddle.PaddleColor.Blue)
-            {
-                Ball.ChangeType(Ball.BallColor.Blue);
-            }
-            else if (Paddle.PColor == Paddle.PaddleColor.Red)
-            {
-                Ball.ChangeType(Ball.BallColor.Red);
-            }
-            else if (Paddle.PColor == Paddle.PaddleColor.Yellow)
-            {
-                Ball.ChangeType(Ball.BallColor.Yellow);
-            }
+            ChangeColorBall(Ball);
         }
 
-        // BRICKS
+        // UPDATE BRICKS
         for (int i = CurrentLevel.Level.ListBricks.Bricks.Count - 1; i >= 0; i--)
         {
             Brick brick = CurrentLevel.Level.ListBricks.Bricks[i];
@@ -230,10 +257,21 @@ internal class SceneGameplay : Scene
                     CollisionBrick = false;
                 }
 
-                if (CollisionBrick && brick.Color == ball.Color)
+                if (CollisionBrick)
                 {
-                    brick.Life--;
-                    CurrentScore = ScoreManager.IncrementScore(10);
+                    if (brick.Color == ball.Color)
+                    {
+                        brick.Life = 0;
+                    }
+                    else
+                    {
+                        brick.Life--;
+                    }
+
+                    if (brick.Life >= 1)
+                    {
+                        CurrentScore = ScoreManager.IncrementScore(10);
+                    }
                 }
             }
 
@@ -252,10 +290,17 @@ internal class SceneGameplay : Scene
                 CollisionBrick = false;
             }
 
-            if (CollisionBrick && (brick.Color == Ball.Color || Ball.Color == "Big"))
+            if (CollisionBrick)
             {
-                brick.Life--;
-                
+                if (brick.Color == Ball.Color || Ball.Color == "Big")
+                {
+                    brick.Life = 0;
+                }
+                else
+                {
+                    brick.Life--;
+                }
+
                 if (brick.Life >= 1)
                 {
                     CurrentScore = ScoreManager.IncrementScore(10);
@@ -299,7 +344,7 @@ internal class SceneGameplay : Scene
                 Debug.WriteLine("Remove brick");
 
                 // CREATE BONUS
-                CreateBonus(brick);
+                CreateBonus(brick.Position.X, brick.Position.Y, brick.Width);
             }
         }
 
@@ -329,25 +374,25 @@ internal class SceneGameplay : Scene
 
             if (bonus.NameImage == "big_ball")
             {
-                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Ball.ChangeType(Ball.BallColor.Big);
+                TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Ball.ChangeColor(Ball.BallColor.Big);
 
-                if (timerBonus >= 10 || StickyBall)
+                if (TimerBonus >= 10 || StickyBall)
                 {
-                    Ball.ChangeType(Ball.BallColor.Blue);
-                    timerBonus = 0;
+                    Ball.ChangeColor(Ball.BallColor.Blue);
+                    TimerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
             }
             else if (bonus.NameImage == "big_bar")
             {
-                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Paddle.ChangeState(Paddle.PaddleLenght.XXLarge);
+                TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Paddle.ChangeLenght(Paddle.PaddleLenght.XXLarge);
 
-                if (timerBonus >= 10)
+                if (TimerBonus >= 10)
                 {
-                    Paddle.ChangeState(Paddle.PaddleLenght.Large);
-                    timerBonus = 0;
+                    Paddle.ChangeLenght(Paddle.PaddleLenght.Large);
+                    TimerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
             }
@@ -356,25 +401,25 @@ internal class SceneGameplay : Scene
                 OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
                 Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
                 Ball.FastBall();
-                fastBall = true;
+                FastBall = true;
                 ListActiveBonus.Remove(bonus);
             }
             else if (bonus.NameImage == "inverted_commands")
             {
-                invertedCommands = true;
+                InvertedCommands = true;
 
-                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (timerBonus >= 10)
+                if (TimerBonus >= 10)
                 {
-                    invertedCommands = false;
-                    timerBonus = 0;
+                    InvertedCommands = false;
+                    TimerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
             }
             else if (bonus.NameImage == "multiball")
             {
-                multiBall = true;
+                MultiBall = true;
 
                 for (int j = 0; j <= 9; j++)
                 {
@@ -391,12 +436,12 @@ internal class SceneGameplay : Scene
                     int speed_y;
                     do
                     {
-                        speed_x = random.Next(-4, 4);
+                        speed_x = Random.Next(-4, 4);
                     } while (speed_x < 2 && speed_x > -2);
 
                     do
                     {
-                        speed_y = random.Next(-4, 4);
+                        speed_y = Random.Next(-4, 4);
                     } while (speed_y < 2 && speed_y > -2);
 
                     newBall.Speed = new Vector2(speed_x, speed_y);
@@ -409,83 +454,53 @@ internal class SceneGameplay : Scene
                 OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
                 Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
                 Ball.SlowBall();
-                slowBall = true;
+                SlowBall = true;
                 ListActiveBonus.Remove(bonus);
             }
             else if (bonus.NameImage == "small_bar")
             {
-                timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Paddle.ChangeState(Paddle.PaddleLenght.Small);
+                TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Paddle.ChangeLenght(Paddle.PaddleLenght.Small);
 
-                if (timerBonus >= 10)
+                if (TimerBonus >= 10)
                 {
-                    Paddle.ChangeState(Paddle.PaddleLenght.Large);
-                    timerBonus = 0;
+                    Paddle.ChangeLenght(Paddle.PaddleLenght.Large);
+                    TimerBonus = 0;
                     ListActiveBonus.Remove(bonus);
                 }
             }
         }
 
-        if (fastBall)
+        if (FastBall)
         {
-            timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timerBonus >= 10)
+            if (TimerBonus >= 10)
             {
-                if (Ball.Speed.X > 0 && Ball.Speed.Y > 0)
-                {
-                    Ball.Speed = new Vector2(OldSpeedBall.X, OldSpeedBall.Y);
-                }
-                else if (Ball.Speed.X < 0 && Ball.Speed.Y < 0)
-                {
-                    Ball.Speed = new Vector2(-OldSpeedBall.X, -OldSpeedBall.Y);
-                }
-                else if (Ball.Speed.X > 0 && Ball.Speed.Y < 0)
-                {
-                    Ball.Speed = new Vector2(OldSpeedBall.X, -OldSpeedBall.Y);
-                }
-                else if (Ball.Speed.X < 0 && Ball.Speed.Y > 0)
-                {
-                    Ball.Speed = new Vector2(-OldSpeedBall.X, OldSpeedBall.Y);
-                }
+                Ball.RestoreSpeed(OldSpeedBall.X, OldSpeedBall.Y);
 
-                timerBonus = 0;
-                fastBall = false;
+                TimerBonus = 0;
+                FastBall = false;
             }
         }
 
-        if (slowBall)
+        if (SlowBall)
         {
-            timerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timerBonus >= 10)
+            if (TimerBonus >= 10)
             {
-                if (Ball.Speed.X > 0 && Ball.Speed.Y > 0)
-                {
-                    Ball.Speed = new Vector2(OldSpeedBall.X, OldSpeedBall.Y);
-                }
-                else if (Ball.Speed.X < 0 && Ball.Speed.Y < 0)
-                {
-                    Ball.Speed = new Vector2(-OldSpeedBall.X, -OldSpeedBall.Y);
-                }
-                else if (Ball.Speed.X > 0 && Ball.Speed.Y < 0)
-                {
-                    Ball.Speed = new Vector2(OldSpeedBall.X, -OldSpeedBall.Y);
-                }
-                else if (Ball.Speed.X < 0 && Ball.Speed.Y > 0)
-                {
-                    Ball.Speed = new Vector2(-OldSpeedBall.X, OldSpeedBall.Y);
-                }
+                Ball.RestoreSpeed(OldSpeedBall.X, OldSpeedBall.Y);
 
-                timerBonus = 0;
-                slowBall = false;
+                TimerBonus = 0;
+                SlowBall = false;
             }
         }
 
-        // MULTIBALL
+        // UPDATE MULTIBALL
         if (ListBall.Count == 0)
         {
-            multiBall = false;
+            MultiBall = false;
         }
 
         for (int j = ListBall.Count - 1; j >= 0; j--)
@@ -511,18 +526,7 @@ internal class SceneGameplay : Scene
 
             if (CollisionPaddle && newBall.BType != Ball.BallColor.Big)
             {
-                if (Paddle.PColor == Paddle.PaddleColor.Blue)
-                {
-                    newBall.ChangeType(Ball.BallColor.Blue);
-                }
-                else if (Paddle.PColor == Paddle.PaddleColor.Red)
-                {
-                    newBall.ChangeType(Ball.BallColor.Red);
-                }
-                else if (Paddle.PColor == Paddle.PaddleColor.Yellow)
-                {
-                    newBall.ChangeType(Ball.BallColor.Yellow);
-                }
+                ChangeColorBall(newBall);
             }
 
             for (int i = ListEnemyBlue.Count - 1; i >= 0; i--)
@@ -573,28 +577,9 @@ internal class SceneGameplay : Scene
             }
         }
 
-        // ENEMY
+        // UPDATE ENEMY
 
-        timerEnemy -= 1 * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        int probaEnemy = random.Next(0, 2);
-
-        if (timerEnemy <= 0 && ListEnemyBlue.Count < 5)
-        {
-            if (probaEnemy == 0)
-            {
-                EnemyBlue enemyBlue = new("Enemy_1");
-                enemyBlue.SetPosition(random.Next(0, _screenSize.width - enemyBlue.Width), 0);
-                ListEnemyBlue.Add(enemyBlue);
-            }
-            else if (probaEnemy == 1)
-            {
-                EnemyYellow enemyYellow = new("Enemy_2");
-                enemyYellow.SetPosition(random.Next(0, _screenSize.width - enemyYellow.Width), 0);
-                ListEnemyYellow.Add(enemyYellow);
-            }
-            
-            timerEnemy = random.Next(10, 21);
-        }
+        CreateEnemies(gameTime);
 
         for (int i = ListEnemyBlue.Count - 1; i >= 0; i--)
         {
@@ -673,8 +658,8 @@ internal class SceneGameplay : Scene
             }
 
             StickyBall = true;
-            timerEnemy = random.Next(10, 31);
-            timerBonus = 5;
+            TimerCreateEnemy = Random.Next(10, 31);
+            TimerBonus = 5;
 
             ListBonus.RemoveAll(ListBonus.Remove);
             ListEnemyBlue.RemoveAll(ListEnemyBlue.Remove);
@@ -694,24 +679,24 @@ internal class SceneGameplay : Scene
         Paddle.Draw(gameTime);
         Ball.Draw(gameTime);
 
-        foreach (Ball b in ListBall)
+        foreach (Ball ball in ListBall)
         {
-            _spriteBatch.Draw(b.SpriteTexture, b.Position, Color.White);
+            _spriteBatch.Draw(ball.SpriteTexture, ball.Position, Color.White);
         }
 
-        foreach (Bonus b in ListBonus)
+        foreach (Bonus bonus in ListBonus)
         {
-            _spriteBatch.Draw(b.SpriteTexture, b.Position, Color.White);
+            _spriteBatch.Draw(bonus.SpriteTexture, bonus.Position, Color.White);
         }
 
-        foreach (EnemyBlue eBlue in ListEnemyBlue)
+        foreach (EnemyBlue enemyBlue in ListEnemyBlue)
         {
-            eBlue.Draw(gameTime);
+            enemyBlue.Draw(gameTime);
         }
 
-        foreach (EnemyYellow eYellow in ListEnemyYellow)
+        foreach (EnemyYellow enemyYellow in ListEnemyYellow)
         {
-            eYellow.Draw(gameTime);
+            enemyYellow.Draw(gameTime);
         }
 
         _spriteBatch.DrawString(

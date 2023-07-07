@@ -16,7 +16,7 @@ internal class Level
 
     public void Load()
     {
-        ListBricks.Load(Lines, Columns, Map);
+        ListBricks.CreateBrick(Lines, Columns, Map);
     }
 
     public void Unload()

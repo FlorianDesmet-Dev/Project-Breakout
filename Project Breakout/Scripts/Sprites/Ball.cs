@@ -27,7 +27,7 @@ internal class Ball : Sprite
         base.Load();
     }
 
-    public void ChangeType(BallColor pType)
+    public void ChangeColor(BallColor pType)
     {
         switch (pType)
         {
@@ -53,11 +53,11 @@ internal class Ball : Sprite
         SpriteTexture = _assets.GetTexture(NameImage + "_" + Color);
     }
 
-    public void StickyBall(Paddle pPaddle)
+    public void StickyBall(float pX, float pY, int pWidth)
     {
         SetPosition(
-            pPaddle.Position.X + pPaddle.Width / 2 - Width / 2,
-            pPaddle.Position.Y - Height + 4);
+            pX + pWidth / 2 - Width / 2,
+            pY - Height + 4);
 
         Speed = new Vector2(3, -3);
     }
@@ -121,6 +121,26 @@ internal class Ball : Sprite
             fastSpeed_x = Speed.X + 1;
             fastSpeed_y = Speed.Y - 1;
             Speed = new Vector2(fastSpeed_x, fastSpeed_y);
+        }
+    }
+
+    public void RestoreSpeed(float pX, float pY)
+    {
+        if (Speed.X > 0 && Speed.Y > 0)
+        {
+            Speed = new Vector2(pX, pY);
+        }
+        else if (Speed.X < 0 && Speed.Y < 0)
+        {
+            Speed = new Vector2(-pX, -pY);
+        }
+        else if (Speed.X > 0 && Speed.Y < 0)
+        {
+            Speed = new Vector2(pX, -pY);
+        }
+        else if (Speed.X < 0 && Speed.Y > 0)
+        {
+            Speed = new Vector2(-pX, pY);
         }
     }
 

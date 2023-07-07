@@ -5,7 +5,7 @@ namespace ProjectBreakout;
 
 internal static class ScoreManager
 {
-    public static int Score { get; private set; }
+    private static int Score { get; set; }
 
     public static int IncrementScore(int pNumber)
     {

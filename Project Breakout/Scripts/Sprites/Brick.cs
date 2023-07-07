@@ -21,8 +21,7 @@ internal class Brick : Sprite
 
     public Brick(string pNameImage, string pType, string pState) : base(pNameImage, pType, pState)
     {
-        Random random = new Random();
-        Life = random.Next(1, 4);
+        Life = 3;
     }
 
     public void ChangeState(BrickState pState)

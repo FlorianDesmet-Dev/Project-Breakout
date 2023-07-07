@@ -50,7 +50,7 @@ internal class Paddle : Sprite
         base.Load();
     }
 
-    public void ChangeState(PaddleLenght pState)
+    public void ChangeLenght(PaddleLenght pState)
     {
         switch (pState)
         {

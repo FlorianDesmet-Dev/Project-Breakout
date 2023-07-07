@@ -217,6 +217,18 @@
 /processorParam:TextureFormat=Color
 /build:Button.png
 
+#begin ButtonRestart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ButtonRestart.png
+
 #begin Enemy_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -252,12 +264,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fast_ball.png
-
-#begin Gameplay.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Gameplay.ogg
 
 #begin Heart_1-2.png
 /importer:TextureImporter
@@ -324,12 +330,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:HitSound.wav
-
-#begin Intro.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Intro.ogg
 
 #begin inverted_commands.png
 /importer:TextureImporter
@@ -402,6 +402,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Layer_4.png
+
+#begin moonlight.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:moonlight.mp3
 
 #begin multiball.png
 /importer:TextureImporter
@@ -523,6 +529,12 @@
 /processorParam:TextureFormat=Color
 /build:Paddle_Yellow_XXLarge.png
 
+#begin sky-lines.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sky-lines.ogg
+
 #begin slow_ball.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -553,6 +565,12 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:SubTitle.spritefont
+
+#begin synthwave-palms.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:synthwave-palms.ogg
 
 #begin Text.spritefont
 /importer:FontDescriptionImporter

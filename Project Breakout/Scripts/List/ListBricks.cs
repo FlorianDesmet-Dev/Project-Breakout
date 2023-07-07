@@ -6,16 +6,16 @@ namespace ProjectBreakout;
 
 internal class ListBricks
 {
-    public SpriteBatch Batch { get; private set; }
-
+    private SpriteBatch Batch { get; set; }
     public List<Brick> Bricks { get; private set; }
+
     public ListBricks()
     {
         Batch = ServiceLocator.GetService<SpriteBatch>();
         Bricks = new();
     }
 
-    public void Load(int pLines, int pColumns, int[][] pMap)
+    public void CreateBrick(int pLines, int pColumns, int[][] pMap)
     {
         string[] allType = new string[3];
         allType[0] = "Blue";

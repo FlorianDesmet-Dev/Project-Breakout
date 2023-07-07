@@ -12,10 +12,10 @@ internal abstract class Sprite
     protected SpriteBatch _spriteBatch { get; private set; }
     protected IScreenSize ScreenSize { get; private set; }
 
-    public Texture2D SpriteTexture { get; set; }
+    public Texture2D SpriteTexture { get; protected set; }
     public Vector2 Position { get; set; }
     public Vector2 Speed { get; set; }
-    public Rectangle BoundingBox { get; set; }
+    public Rectangle BoundingBox { get; protected set; }
 
     public string NameImage { get; set; }
     public int Life { get; set; }
