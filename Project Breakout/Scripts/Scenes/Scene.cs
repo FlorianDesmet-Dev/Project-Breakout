@@ -18,7 +18,7 @@ namespace ProjectBreakout
         protected Vector2 SizeFont { get; set; }
         protected Vector2 TitlePosition { get; set; }
         protected Vector2 ShadePosition { get; set; }
-        
+
         protected Button StartButton { get; set; }
         protected Background[] Backgrounds { get; private set; }
 
@@ -32,7 +32,7 @@ namespace ProjectBreakout
             _screenSize = ServiceLocator.GetService<IScreenSize>();
             _gameState = ServiceLocator.GetService<GameState>();
             Backgrounds = new Background[5];
-            
+
             float speed = -0.02f;
 
             for (int i = 0; i < Backgrounds.Length; i++)
@@ -58,7 +58,7 @@ namespace ProjectBreakout
 
         public virtual void Update(GameTime gameTime)
         {
-            
+
         }
 
         public virtual void Draw(GameTime gameTime)

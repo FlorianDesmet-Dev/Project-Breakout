@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -117,7 +118,6 @@ internal class SceneGameplay : Scene
     public void CreateBonus(float pX, float pY, int pWidth)
     {
         int probaBonus = Random.Next(0, 2);
-        Debug.WriteLine("Proba = " + probaBonus);
 
         if (probaBonus != 0 && TimerBonus <= 0 && !MultiBall && !FastBall && !SlowBall)
         {
@@ -212,22 +212,44 @@ internal class SceneGameplay : Scene
             Ball.StickyBall(Paddle.Position.X, Paddle.Position.Y, Paddle.Width);
         }
 
-        if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()) &&
-            !StickyBall)
+        if (Ball.Position.X + Ball.Width >= Paddle.Position.X &&
+            Ball.Position.Y + Ball.Width >= Paddle.Position.Y &&
+            Ball.Position.Y <= Paddle.Position.Y + Paddle.Height)
         {
-            Ball.HitX();
-            CollisionPaddle = true;
+            Ball.Position = new Vector2(Paddle.Position.X - Ball.Width, Ball.Position.Y);
+            Ball.ChangeDirectionX();
         }
-        else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()) &&
-            !StickyBall)
+        else if (Ball.Position.X <= Paddle.Position.X + Paddle.Width &&
+                 Ball.Position.Y + Ball.Width >= Paddle.Position.Y &&
+                 Ball.Position.Y <= Paddle.Position.Y + Paddle.Height)
         {
-            Ball.HitY();
-            CollisionPaddle = true;
+            Ball.Position = new Vector2(Paddle.Position.X + Paddle.Width, Ball.Position.Y);
+            Ball.ChangeDirectionX();
         }
-        else
+        else if (Ball.Position.Y + Ball.Height >= Paddle.Position.Y &&
+                 Ball.Position.X + Ball.Width >= Paddle.Position.X &&
+                 Ball.Position.X <= Paddle.Position.X + Paddle.Width)
         {
-            CollisionPaddle = false;
+            Ball.Position = new Vector2(Ball.Position.X, Paddle.Position.Y - Ball.Height);
+            Ball.ChangeDirectionY();
         }
+
+        /* if (Paddle.BoundingBox.Intersects(Ball.NextPositionX()) &&
+             !StickyBall)
+         {
+             Ball.HitX();
+             CollisionPaddle = true;
+         }        
+         else if (Paddle.BoundingBox.Intersects(Ball.NextPositionY()) &&
+             !StickyBall)
+         {
+             Ball.HitY();
+             CollisionPaddle = true;
+         }
+         else
+         {
+             CollisionPaddle = false;
+         } */
 
         if (StickyBall || CollisionPaddle && Ball.BType != Ball.BallColor.Big)
         {
@@ -280,7 +302,12 @@ internal class SceneGameplay : Scene
                 Ball.HitX();
                 CollisionBrick = true;
             }
-            else if (brick.BoundingBox.Intersects(Ball.NextPositionY()))
+            else
+            {
+                CollisionBrick = false;
+            }
+
+            if (brick.BoundingBox.Intersects(Ball.NextPositionY()))
             {
                 Ball.HitY();
                 CollisionBrick = true;
@@ -341,7 +368,6 @@ internal class SceneGameplay : Scene
             {
                 CurrentScore = ScoreManager.IncrementScore(100);
                 CurrentLevel.Level.ListBricks.Bricks.Remove(brick);
-                Debug.WriteLine("Remove brick");
 
                 // CREATE BONUS
                 CreateBonus(brick.Position.X, brick.Position.Y, brick.Width);
@@ -396,14 +422,13 @@ internal class SceneGameplay : Scene
                     ListActiveBonus.Remove(bonus);
                 }
             }
-            else if (bonus.NameImage == "fast_ball")
+            /* else if (bonus.NameImage == "fast_ball")
             {
                 OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
-                Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
                 Ball.FastBall();
                 FastBall = true;
                 ListActiveBonus.Remove(bonus);
-            }
+            }*/
             else if (bonus.NameImage == "inverted_commands")
             {
                 InvertedCommands = true;
@@ -417,7 +442,7 @@ internal class SceneGameplay : Scene
                     ListActiveBonus.Remove(bonus);
                 }
             }
-            else if (bonus.NameImage == "multiball")
+            /* else if (bonus.NameImage == "multiball")
             {
                 MultiBall = true;
 
@@ -452,11 +477,10 @@ internal class SceneGameplay : Scene
             else if (bonus.NameImage == "slow_ball")
             {
                 OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
-                Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
                 Ball.SlowBall();
                 SlowBall = true;
                 ListActiveBonus.Remove(bonus);
-            }
+            } */
             else if (bonus.NameImage == "small_bar")
             {
                 TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -471,7 +495,7 @@ internal class SceneGameplay : Scene
             }
         }
 
-        if (FastBall)
+        /* if (FastBall)
         {
             TimerBonus += 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -495,7 +519,7 @@ internal class SceneGameplay : Scene
                 TimerBonus = 0;
                 SlowBall = false;
             }
-        }
+        } */
 
         // UPDATE MULTIBALL
         if (ListBall.Count == 0)

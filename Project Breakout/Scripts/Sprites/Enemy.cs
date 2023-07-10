@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SharpDX;
 using System;
-using System.Collections.Generic;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace ProjectBreakout;

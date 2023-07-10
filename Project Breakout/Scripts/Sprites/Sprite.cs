@@ -15,7 +15,7 @@ internal abstract class Sprite
     public Texture2D SpriteTexture { get; protected set; }
     public Vector2 Position { get; set; }
     public Vector2 Speed { get; set; }
-    public Rectangle BoundingBox { get; protected set; }
+    public Rectangle BoundingBox { get; set; }
 
     public string NameImage { get; set; }
     public int Life { get; set; }
@@ -31,7 +31,7 @@ internal abstract class Sprite
         _assets = ServiceLocator.GetService<IGetAssets>();
         _spriteBatch = ServiceLocator.GetService<SpriteBatch>();
         ScreenSize = ServiceLocator.GetService<IScreenSize>();
-        
+
         NameImage = pNameImage;
         SpriteTexture = _assets.GetTexture(NameImage);
     }
@@ -69,14 +69,14 @@ internal abstract class Sprite
         Position = new Vector2(pX, pY);
     }
 
-    public Rectangle NextPositionX()
+    public virtual Rectangle NextPositionX()
     {
         Rectangle nextPosition = BoundingBox;
         nextPosition.Offset(new Point((int)Speed.X, 0));
         return nextPosition;
     }
 
-    public Rectangle NextPositionY()
+    public virtual Rectangle NextPositionY()
     {
         Rectangle nextPosition = BoundingBox;
         nextPosition.Offset(new Point(0, (int)Speed.Y));
@@ -100,7 +100,7 @@ internal abstract class Sprite
 
     public virtual void Move(float pX, float pY)
     {
-        Position = new Vector2(Position.X + pX , Position.Y + pY );
+        Position = new Vector2(Position.X + pX, Position.Y + pY);
     }
 
     public virtual void BounceLimit()
@@ -129,6 +129,16 @@ internal abstract class Sprite
 
     public virtual void Draw(GameTime gameTime)
     {
-        _spriteBatch.Draw(SpriteTexture, Position, Microsoft.Xna.Framework.Color.White);
+        _spriteBatch.Draw(
+            SpriteTexture, 
+            Position, 
+            null, 
+            Microsoft.Xna.Framework.Color.White, 
+            0, 
+            Vector2.Zero, 
+            1.0f, 
+            SpriteEffects.
+            None, 
+            0);
     }
 }
