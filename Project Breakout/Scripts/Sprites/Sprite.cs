@@ -15,7 +15,7 @@ internal abstract class Sprite
     public Texture2D SpriteTexture { get; protected set; }
     public Vector2 Position { get; set; }
     public Vector2 Speed { get; set; }
-    public Rectangle BoundingBox { get; set; }
+    public Rectangle BoundingBox { get; protected set; }
 
     public string NameImage { get; set; }
     public int Life { get; set; }
@@ -69,14 +69,14 @@ internal abstract class Sprite
         Position = new Vector2(pX, pY);
     }
 
-    public virtual Rectangle NextPositionX()
+    public Rectangle NextPositionX()
     {
         Rectangle nextPosition = BoundingBox;
         nextPosition.Offset(new Point((int)Speed.X, 0));
         return nextPosition;
     }
 
-    public virtual Rectangle NextPositionY()
+    public Rectangle NextPositionY()
     {
         Rectangle nextPosition = BoundingBox;
         nextPosition.Offset(new Point(0, (int)Speed.Y));
@@ -129,16 +129,6 @@ internal abstract class Sprite
 
     public virtual void Draw(GameTime gameTime)
     {
-        _spriteBatch.Draw(
-            SpriteTexture, 
-            Position, 
-            null, 
-            Microsoft.Xna.Framework.Color.White, 
-            0, 
-            Vector2.Zero, 
-            1.0f, 
-            SpriteEffects.
-            None, 
-            0);
+        _spriteBatch.Draw(SpriteTexture, Position, Microsoft.Xna.Framework.Color.White);
     }
 }

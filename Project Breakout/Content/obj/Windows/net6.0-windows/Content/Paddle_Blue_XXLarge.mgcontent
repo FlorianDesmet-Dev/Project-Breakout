@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_XXLarge.png</SourceFile>
-  <SourceTime>2023-07-03T11:29:16.3110283+02:00</SourceTime>
+  <SourceTime>2023-07-03T11:29:18+02:00</SourceTime>
   <DestFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Content/Paddle_Blue_XXLarge.xnb</DestFile>
-  <DestTime>2023-07-06T10:19:29.0216978+02:00</DestTime>
+  <DestTime>2023-07-10T23:16:08.3356645+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
