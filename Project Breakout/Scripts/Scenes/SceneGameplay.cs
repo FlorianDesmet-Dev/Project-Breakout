@@ -10,7 +10,6 @@ namespace ProjectBreakout;
 
 internal class SceneGameplay : Scene
 {
-    // Environnement Dev
     // LEVEL
     private LevelManager CurrentLevel { get; set; }
 
@@ -276,7 +275,7 @@ internal class SceneGameplay : Scene
                 }
             }
 
-            if (brick.BoundingBox.Intersects(Ball.NextPositionX()))
+            /* if (brick.BoundingBox.Intersects(Ball.NextPositionX()))
             {
                 Ball.HitX();
                 CollisionBrick = true;
@@ -289,7 +288,7 @@ internal class SceneGameplay : Scene
             else
             {
                 CollisionBrick = false;
-            }
+            } */
 
             if (CollisionBrick)
             {
@@ -399,9 +398,9 @@ internal class SceneGameplay : Scene
             }
             else if (bonus.NameImage == "fast_ball")
             {
-                OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
+                // OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
                 Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
-                Ball.FastBall();
+                // Ball.FastBall();
                 FastBall = true;
                 ListActiveBonus.Remove(bonus);
             }
@@ -445,16 +444,16 @@ internal class SceneGameplay : Scene
                         speed_y = Random.Next(-4, 4);
                     } while (speed_y < 2 && speed_y > -2);
 
-                    newBall.Speed = new Vector2(speed_x, speed_y);
+                    // newBall.Speed = new Vector2(speed_x, speed_y);
                     ListBall.Add(newBall);
                 }
                 ListActiveBonus.Remove(bonus);
             }
             else if (bonus.NameImage == "slow_ball")
             {
-                OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
+                // OldSpeedBall = new Vector2(Math.Abs(Ball.Speed.X), Math.Abs(Ball.Speed.Y));
                 Debug.WriteLine("Old Speed ball = " + OldSpeedBall);
-                Ball.SlowBall();
+                // Ball.SlowBall();
                 SlowBall = true;
                 ListActiveBonus.Remove(bonus);
             }
@@ -478,7 +477,7 @@ internal class SceneGameplay : Scene
 
             if (TimerBonus >= 10)
             {
-                Ball.RestoreSpeed(OldSpeedBall.X, OldSpeedBall.Y);
+                // Ball.RestoreSpeed(OldSpeedBall.X, OldSpeedBall.Y);
 
                 TimerBonus = 0;
                 FastBall = false;
@@ -491,7 +490,7 @@ internal class SceneGameplay : Scene
 
             if (TimerBonus >= 10)
             {
-                Ball.RestoreSpeed(OldSpeedBall.X, OldSpeedBall.Y);
+                // Ball.RestoreSpeed(OldSpeedBall.X, OldSpeedBall.Y);
 
                 TimerBonus = 0;
                 SlowBall = false;

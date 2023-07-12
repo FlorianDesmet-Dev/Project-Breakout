@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using System;
 
 namespace ProjectBreakout;
 internal class Ball : Sprite
@@ -12,6 +13,10 @@ internal class Ball : Sprite
         Big
     }
 
+    public float Angle { get; set; }
+    public new float Speed { get; set; }
+    public Vector2 Direction { get; set; }
+
     public BallColor BType { get; set; }
     public SoundEffect HitSound { get; private set; }
 
@@ -20,6 +25,10 @@ internal class Ball : Sprite
     {
         BType = BallColor.Blue;
         HitSound = _assets.GetSoundEffect("HitSound");
+
+        Angle = MathHelper.ToRadians(-45);
+        Speed = 4;
+        Direction = Vector2.Zero;
     }
 
     public override void Load()
@@ -59,10 +68,14 @@ internal class Ball : Sprite
             pX + pWidth / 2 - Width / 2,
             pY - Height + 4);
 
-        Speed = new Vector2(3, -3);
+        // Speed = new Vector2(3, -3);
+
+        Direction = new Vector2(
+            Speed * (float)Math.Cos(Angle),
+            Speed * (float)Math.Sin(Angle));
     }
 
-    public void FastBall()
+    /* public void FastBall()
     {
         float fastSpeed_x;
         float fastSpeed_y;
@@ -142,6 +155,49 @@ internal class Ball : Sprite
         {
             Speed = new Vector2(-pX, pY);
         }
+    } */
+
+    public new Rectangle NextPositionX()
+    {
+        Rectangle nextPosition = BoundingBox;
+        nextPosition.Offset(new Point((int)Direction.X, 0));
+        return nextPosition;
+    }
+
+    public new Rectangle NextPositionY()
+    {
+        Rectangle nextPosition = BoundingBox;
+        nextPosition.Offset(new Point(0, (int)Direction.Y));
+        return nextPosition;
+    }
+
+    public override void ChangeDirectionX()
+    {
+        Direction = new Vector2(-Direction.X, Direction.Y);
+    }
+
+    public override void ChangeDirectionY()
+    {
+        Direction = new Vector2(Direction.X, -Direction.Y);
+    }
+
+    public override void BounceLimit()
+    {
+        if (Position.X + Width >= ScreenSize.width)
+        {
+            Position = new Vector2(ScreenSize.width - Width, Position.Y);
+            ChangeDirectionX();
+        }
+        else if (Position.X <= 0)
+        {
+            Position = new Vector2(0, Position.Y);
+            ChangeDirectionX();
+        }
+        else if (Position.Y <= 0)
+        {
+            Position = new Vector2(Position.X, 0);
+            ChangeDirectionY();
+        }
     }
 
     public void HitX()
@@ -164,8 +220,9 @@ internal class Ball : Sprite
 
     public override void Update(GameTime gameTime)
     {
-        base.Update(gameTime);
-
+        BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+        Position += Direction;
+        // base.Update(gameTime);
         BounceLimit();
     }
 
