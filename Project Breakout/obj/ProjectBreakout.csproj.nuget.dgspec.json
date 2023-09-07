@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj": {}
+    "D:\\GoogleDrive\\2_Gaming Campus\\2_Projets\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj": {}
   },
   "projects": {
-    "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj": {
+    "D:\\GoogleDrive\\2_Gaming Campus\\2_Projets\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj",
+        "projectUniqueName": "D:\\GoogleDrive\\2_Gaming Campus\\2_Projets\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj",
         "projectName": "ProjectBreakout",
-        "projectPath": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj",
+        "projectPath": "D:\\GoogleDrive\\2_Gaming Campus\\2_Projets\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\ProjectBreakout.csproj",
         "packagesPath": "C:\\Users\\desme\\.nuget\\packages\\",
-        "outputPath": "D:\\Mon Drive\\Gaming Campus\\Soutenances\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\obj\\",
+        "outputPath": "D:\\GoogleDrive\\2_Gaming Campus\\2_Projets\\Module 2 - C# et Monogame\\Project-Breakout\\Project Breakout\\Project Breakout\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

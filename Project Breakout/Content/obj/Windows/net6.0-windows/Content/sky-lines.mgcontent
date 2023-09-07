@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/sky-lines.ogg</SourceFile>
+  <SourceFile>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/sky-lines.ogg</SourceFile>
   <SourceTime>2021-01-15T18:45:00+01:00</SourceTime>
-  <DestFile>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Content/sky-lines.xnb</DestFile>
-  <DestTime>2023-07-10T23:16:09.5528825+02:00</DestTime>
+  <DestFile>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Content/sky-lines.xnb</DestFile>
+  <DestTime>2023-09-07T11:37:11.2877414+02:00</DestTime>
   <Importer>OggImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>SongProcessor</Processor>
@@ -15,6 +15,6 @@
   <Dependencies />
   <BuildAsset />
   <BuildOutput>
-    <string>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Content/sky-lines.wma</string>
+    <string>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/bin/Windows/Content/sky-lines.wma</string>
   </BuildOutput>
 </PipelineBuildEvent>

@@ -4,57 +4,57 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Big.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Blue.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Red.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Yellow.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/big_ball.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/big_bar.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_1-3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_2-3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_Full.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Red_1-3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Red_2-3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Red_Full.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Yellow_1-3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Yellow_2-3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Yellow_Full.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Bullet.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Button.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/ButtonRestart.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Enemy_1.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Enemy_2.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/fast_ball.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_1-2.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_1-4.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_3-4.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_Empty.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_Full.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/HitSound.wav</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/inverted_commands.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_0.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_1.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_2.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_3.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_4.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/moonlight.mp3</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/multiball.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_Large.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_Small.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_XXLarge.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Red_Large.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Red_Small.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Red_XXLarge.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Yellow_Large.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Yellow_Small.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Yellow_XXLarge.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/sky-lines.ogg</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/slow_ball.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/small_bar.png</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/SubTitle.spritefont</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/synthwave-palms.ogg</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Text.spritefont</File>
-    <File>D:/Mon Drive/Gaming Campus/Soutenances/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Title.spritefont</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Big.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Blue.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Red.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Ball_Yellow.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/big_ball.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/big_bar.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_1-3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_2-3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Blue_Full.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Red_1-3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Red_2-3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Red_Full.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Yellow_1-3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Yellow_2-3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Brick_Yellow_Full.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Bullet.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Button.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/ButtonRestart.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Enemy_1.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Enemy_2.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/fast_ball.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_1-2.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_1-4.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_3-4.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_Empty.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Heart_Full.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/HitSound.wav</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/inverted_commands.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_0.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_1.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_2.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_3.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Layer_4.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/moonlight.mp3</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/multiball.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_Large.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_Small.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Blue_XXLarge.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Red_Large.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Red_Small.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Red_XXLarge.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Yellow_Large.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Yellow_Small.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Paddle_Yellow_XXLarge.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/sky-lines.ogg</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/slow_ball.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/small_bar.png</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/SubTitle.spritefont</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/synthwave-palms.ogg</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Text.spritefont</File>
+    <File>D:/GoogleDrive/2_Gaming Campus/2_Projets/Module 2 - C# et Monogame/Project-Breakout/Project Breakout/Project Breakout/Content/Title.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
